@@ -5,7 +5,7 @@ let zapisanaListaGier = [];
 let przefiltrowaneGry = [];
 let wyswietloneGry = 0;
 let wybranyAppId = null; 
-const PORCJA_GIER = 5; 
+const PORCJA_GIER = 6; 
 
 async function wyciagnijSteamID(link) {
     const cleanLink = link.replace(/\/$/, "");
