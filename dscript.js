@@ -1,4 +1,3 @@
-const API_KEY = '';
 const searchBtn = document.getElementById('search-btn');
 const loadMoreBtn = document.getElementById('load-more-btn');
 const queryInput = document.getElementById('youtube-query');
@@ -145,7 +144,7 @@ async function fetchGamingLive(specificGame = null) {
                 </div>
             `;
         } else {
-            const message = specificGame ? `Brak streamów z ${specificGame}` : "Nie znaleziono transmisji";
+            const message = specificGame ? `Aktualnie nikt nie prowadzi streamów z ${specificGame}` : "Nie znaleziono transmisji";
             ytCell.innerHTML = `<div class="yt-loading">${message}</div>`;
         }
     } catch (error) {
