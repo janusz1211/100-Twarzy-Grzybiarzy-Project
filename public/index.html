@@ -26,7 +26,7 @@
 <nav id="side-menu" class="side-menu">
     <a href="#pierwszy-panel" onclick="toggleMenu()">Strona Główna</a>
     <a href="#drugi-panel" onclick="toggleMenu()">Statystyki</a>
-    <a href="#trzeci-panel" onclick="toggleMenu()">Wyszukiwarka</a>
+    <a href="YtSearch.html" onclick="toggleMenu()">Wyszukiwarka</a>
     <a href="Steamlogin.html" target="_self" onclick="toggleMenu()">Logowanie</a>
 </nav>
         <div id="userAvatarContainer" class="kolko-awatar">
@@ -131,25 +131,11 @@
         </div>
     </div>
 </div>
-
-    <!--dawid-->
-<div class="trzeci-panel" id="trzeci-panel">
-    <div class="sidebar">
-        <input type="text" id="youtube-query" placeholder="Wyszukaj..">
-        <button id="search-btn">Szukaj</button>
-    </div>
-    <div id="video-results"></div>
-    <div id="pagination-container" style="margin-top: 20px; display: none;">
-        <button id="load-more-btn">Załaduj więcej</button>
-    </div>
-</div>
-
-<div id="video-modal" class="modal">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeModal()">&times;</span>
-        <iframe id="youtube-player" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-    </div>
-</div>
+<!--dawid-->
+<section class="sekcja-przejscia" style="text-align: center; padding: 50px; background: #1a1d20;">
+    <h2 style="color: white; margin-bottom: 20px;">Yt?</h2>
+    <a href="YtSearch.html" class="stat-button" style="display: inline-block; padding: 15px 40px; text-decoration: none; background: #e91e63; color: white; border-radius: 5px; font-weight: bold;">Otwórz Wyszukiwarkę</a>
+</section>
 <!--dawid-->
 <footer class="main-footer">
     <div class="footer-content">

@@ -1,15 +1,21 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    background-color: #1B2838;
+    color: white;
+}
+
 .trzeci-panel {
     background-color: #1B2838;
-    min-height: 800px;
+    min-height: 100vh;
+    width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     padding: 60px 20px;
     box-sizing: border-box;
-    transition: all 0.5s ease-in-out; 
 }
-
 
 
 .sidebar {
