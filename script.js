@@ -263,9 +263,13 @@ document.addEventListener('DOMContentLoaded', () => {
                             searchInput.value = game.name;
                             suggestionsBox.style.display = 'none';
                             
-                            
                             if (typeof loadTopKickStream === "function") {
                                 loadTopKickStream(game.name);
+                            }
+                            
+                            // NOWE: Wywołanie aktualizacji Twitcha po wyszukaniu gry
+                            if (typeof loadTopTwitchStream === "function") {
+                                loadTopTwitchStream(game.name);
                             }
                         };
                         suggestionsBox.appendChild(item);
