@@ -241,3 +241,58 @@ async function fetchGamingLive(specificGame = null) {
 }
 
 fetchGamingLive();
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const themeToggle = document.getElementById('theme-toggle');
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+
+    if (savedTheme === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+        if (themeToggle) themeToggle.checked = true;
+    } else {
+        document.documentElement.removeAttribute('data-theme');
+        if (themeToggle) themeToggle.checked = false;
+    }
+
+    if (themeToggle) {
+        themeToggle.addEventListener('change', function() {
+            if (this.checked) {
+                document.documentElement.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+    }
+});
+
+const oryginalneShowQuestion = window.showQuestion;
+if (oryginalneShowQuestion) {
+    window.showQuestion = function() {
+        oryginalneShowQuestion();
+        if (document.documentElement.getAttribute('data-theme') === 'light') {
+            const buttons = document.querySelectorAll('.answer-btn');
+            buttons.forEach(btn => {
+                btn.style.backgroundColor = '#fff0f2';
+            });
+        }
+    };
+}
+
+const themeToggleInput = document.getElementById('theme-toggle');
+if (themeToggleInput) {
+    themeToggleInput.addEventListener('change', function() {
+        const buttons = document.querySelectorAll('.answer-btn');
+        if (this.checked) {
+            buttons.forEach(btn => {
+                if (!btn.disabled) btn.style.backgroundColor = '#fff0f2';
+            });
+        } else {
+            buttons.forEach(btn => {
+                if (!btn.disabled) btn.style.backgroundColor = '#3d4450';
+            });
+        }
+    });
+}

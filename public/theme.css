@@ -1,0 +1,298 @@
+html[data-theme="light"] body {
+    background-color: #e8b5c0 !important;
+    color: #310714 !important;
+}
+
+html[data-theme="light"] #gora-pasek {
+    background-color: #3d0c1b !important;
+    border-bottom: 1px solid #541427 !important;
+}
+
+html[data-theme="light"] .menu-ikona {
+    color: #ffb3c1 !important;
+}
+
+html[data-theme="light"] .side-menu {
+    background-color: #3d0c1b !important;
+    border-right: 1px solid #541427 !important;
+    border-bottom: 1px solid #541427 !important;
+}
+
+html[data-theme="light"] .side-menu a {
+    color: #ffb3c1 !important;
+    border-bottom: 1px solid #541427 !important;
+}
+
+html[data-theme="light"] .side-menu a:hover {
+    background-color: #541427 !important;
+    color: #ffffff !important;
+}
+
+html[data-theme="light"] .top-search-container {
+    background: #541427 !important;
+    border-color: #701f37 !important;
+}
+
+html[data-theme="light"] #game-search-input {
+    color: #ffffff !important;
+}
+
+html[data-theme="light"] #game-search-input::placeholder {
+    color: #c48394 !important;
+}
+
+html[data-theme="light"] .top-search-container i {
+    color: #ffb3c1 !important;
+}
+
+html[data-theme="light"] .pierwszy-panel {
+    background-color: #e8b5c0 !important;
+}
+
+html[data-theme="light"] .gallery-cell {
+    background-color: #fff5f7 !important;
+    box-shadow: 0 4px 8px rgba(61, 12, 27, 0.15) !important;
+}
+
+html[data-theme="light"] #yt-live-cell, 
+html[data-theme="light"] #kick-cell, 
+html[data-theme="light"] #twitch-cell {
+    background-color: #fff0f2 !important;
+}
+
+html[data-theme="light"] .yt-loading, 
+html[data-theme="light"] .kick-loading, 
+html[data-theme="light"] .twitch-loading {
+    color: #b52b4c !important;
+}
+
+html[data-theme="light"] .drugi-panel {
+    background: radial-gradient(circle at top left, #fff5f7 0%, #e09eaf 100%) !important;
+}
+
+html[data-theme="light"] .leftcol {
+    background-color: #fff5f7 !important;
+    border-color: #cc8e9d !important;
+    box-shadow: 0 10px 25px rgba(61, 12, 27, 0.1) !important;
+}
+
+html[data-theme="light"] .leftcol-bar {
+    background-color: #fff0f2 !important;
+    border-bottom-color: #cc8e9d !important;
+}
+
+html[data-theme="light"] .leftcol-bar input {
+    background: #fff5f7 !important;
+    border-color: #cc8e9d !important;
+    color: #310714 !important;
+}
+
+html[data-theme="light"] .leftcol button {
+    background: #f7cbd5 !important;
+    color: #310714 !important;
+    border-color: #cc8e9d !important;
+}
+
+html[data-theme="light"] .stat-button {
+    background: #fff5f7 !important;
+    border-color: #cc8e9d !important;
+}
+
+html[data-theme="light"] .stat-button:hover {
+    background: #fff0f2 !important;
+    border-color: #b52b4c !important;
+}
+
+html[data-theme="light"] .stat-button .btn-text {
+    color: #310714 !important;
+}
+
+html[data-theme="light"] .stats-title-text {
+    color: #b52b4c !important;
+}
+
+html[data-theme="light"] .achievements-container {
+    background: #fff0f2 !important;
+    color: #310714 !important;
+    border: 1px solid #cc8e9d !important;
+}
+
+html[data-theme="light"] .panel-gra {
+    background-color: #e8b5c0 !important;
+}
+
+html[data-theme="light"] .prostokat-srodek {
+    background-color: #fff5f7 !important;
+    border: 1px solid #cc8e9d !important;
+    box-shadow: 0 10px 25px rgba(61, 12, 27, 0.1) !important;
+}
+
+html[data-theme="light"] .leftcol-gra {
+    border-right-color: #cc8e9d !important;
+    background: rgba(61, 12, 27, 0.03) !important;
+}
+
+html[data-theme="light"] .leftcol-header-gra h2 {
+    color: #b52b4c !important;
+}
+
+html[data-theme="light"] .game-stats {
+    background: #fff0f2 !important;
+    border: 1px solid #cc8e9d !important;
+}
+
+html[data-theme="light"] .game-stats p {
+    color: #310714 !important;
+}
+
+html[data-theme="light"] .cat-btn {
+    background: #fff5f7 !important;
+    color: #b52b4c !important;
+    border-color: #b52b4c !important;
+}
+
+html[data-theme="light"] .cat-btn:hover {
+    background: #b52b4c !important;
+    color: #ffffff !important;
+}
+
+html[data-theme="light"] #welcome-screen h1 {
+    color: #b52b4c !important;
+}
+
+html[data-theme="light"] #q-text {
+    color: #310714 !important;
+}
+
+html[data-theme="light"] .answer-btn {
+    background-color: #fff0f2;
+    color: #310714 !important;
+    border-color: #cc8e9d !important;
+}
+
+html[data-theme="light"] .answer-btn:hover:not(:disabled) {
+    background-color: #c93a5b !important;
+    color: #ffffff !important;
+}
+
+html[data-theme="light"] .trzeci-panel {
+    background-color: #e8b5c0 !important;
+}
+
+html[data-theme="light"] .sidebar input {
+    background: #fff5f7 !important;
+    color: #310714 !important;
+    border-color: #cc8e9d !important;
+}
+
+html[data-theme="light"] .video-card {
+    background: #fff5f7 !important;
+    border-color: #cc8e9d !important;
+}
+
+html[data-theme="light"] .video-card h3 {
+    color: #310714 !important;
+}
+
+html[data-theme="light"] #loginSection {
+    background: radial-gradient(circle at center, #fff5f7 0%, #e8b5c0 100%) !important;
+}
+
+html[data-theme="light"] .login-card {
+    background: #fff5f7 !important;
+    border-color: #cc8e9d !important;
+    box-shadow: 0 15px 35px rgba(61, 12, 27, 0.1) !important;
+}
+
+html[data-theme="light"] #WelcomeText {
+    color: #310714 !important;
+}
+
+html[data-theme="light"] #steamInput {
+    background-color: #fff0f2 !important;
+    color: #310714 !important;
+    border-color: #cc8e9d !important;
+}
+
+html[data-theme="light"] .a11y-side-panel {
+    background-color: #3d0c1b !important;
+    border-left: 1px solid #541427 !important;
+}
+
+html[data-theme="light"] .a11y-header {
+    background-color: #2e0813 !important;
+    border-bottom: 1px solid #541427 !important;
+    color: #ffffff !important;
+}
+
+html[data-theme="light"] .a11y-option {
+    color: #ffb3c1 !important;
+}
+
+html[data-theme="light"] footer.main-footer,
+html[data-theme="light"] .main-footer {
+    background-color: #3d0c1b !important;
+    border-top: 1px solid #541427 !important;
+    color: #ffb3c1 !important;
+}
+
+html[data-theme="light"] .main-footer .footer-content,
+html[data-theme="light"] .main-footer .footer-section,
+html[data-theme="light"] .main-footer p,
+html[data-theme="light"] .main-footer div.footer-bottom {
+    background-color: transparent !important;
+    color: #ffb3c1 !important;
+}
+
+html[data-theme="light"] .footer-logo {
+    color: #ffffff !important;
+}
+
+html[data-theme="light"] .footer-logo span {
+    color: #ffb3c1 !important;
+}
+
+html[data-theme="light"] .footer-section.contact h3 {
+    color: #ffb3c1 !important;
+}
+
+html[data-theme="light"] .footer-section.contact p {
+    color: #ffb3c1 !important;
+}
+
+html[data-theme="light"] .footer-section.contact p:hover {
+    color: #ffffff !important;
+}
+
+html[data-theme="light"] .social-icons a {
+    color: #ffb3c1 !important;
+}
+
+html[data-theme="light"] .social-icons a:hover {
+    color: #ffffff !important;
+    transform: translateY(-3px) !important;
+}
+
+html[data-theme="light"] .footer-bottom {
+    border-top: 1px solid rgba(84, 20, 39, 0.5) !important;
+    color: #ffb3c1 !important;
+}
+
+html[data-theme="light"] .sekcja-przejscia {
+    background-color: #3d0c1b !important;
+}
+
+html[data-theme="light"] .sekcja-przejscia h2 {
+    color: #ffb3c1 !important;
+}
+
+html[data-theme="light"] .sekcja-przejscia .stat-button {
+    background-color: #fff0f2 !important;
+    color: #310714 !important;
+    border: 1px solid #cc8e9d !important;
+}
+
+html[data-theme="light"] .sekcja-przejscia .stat-button:hover {
+    background-color: #f7cbd5 !important;
+    color: #310714 !important;
+}
