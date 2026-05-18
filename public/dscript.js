@@ -1,4 +1,3 @@
-const API_KEY = ''; 
 const searchBtn = document.getElementById('search-btn');
 const loadMoreBtn = document.getElementById('load-more-btn');
 const queryInput = document.getElementById('youtube-query');
