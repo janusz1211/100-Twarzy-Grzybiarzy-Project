@@ -1,4 +1,9 @@
-/* --- GŁÓWNE RESETOWANIE I TYPOGRAFIA --- */
+html, body {
+    max-width: 100% !important;
+    overflow-x: hidden !important; /* Blokuje przesuwanie całej strony lewo-prawo */
+    margin: 0;
+    padding: 0;
+}
 * {
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
@@ -13,19 +18,17 @@
     display: block;
 }
 
-/* --- DRUGI PANEL (STATYSTYKI) --- */
 .drugi-panel {
-    height: 100vh; /* Panel zajmuje pełną wysokość ekranu */
+    height: 100vh; 
     width: 100%;
     display: flex;
-    flex-direction: row-reverse; /* Gry po prawej, detale po lewej */
+    flex-direction: row-reverse; 
     background: radial-gradient(circle at top left, #1b2838 0%, #101214 100%);
-    padding: 5em 5% 2em; /* 5em góry, by nie chowało się pod topbarem */
+    padding: 5em 5% 2em; 
     gap: 25px;
-    overflow: hidden; /* Sam panel nie scrolluje, scrollują kolumny */
+    overflow: hidden; 
 }
 
-/* LEWA KOLUMNA - Detale gry */
 .leftcol {
     background-color: rgba(41, 46, 55, 0.4);
     backdrop-filter: blur(10px);
@@ -72,16 +75,47 @@
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
-/* PRAWA KOLUMNA - Lista gier ze scrollem */
+.leftcol button:hover {
+    background: rgba(102, 192, 244, 0.15);
+    border-color: #66c0f4;
+    color: #ffffff;
+}
+.leftcol-btn.active-sort {
+    background-color: #66c0f4 !important; 
+    color: #101214 !important;            
+    border-color: #66c0f4 !important;
+    transform: translateY(0) !important;   
+    box-shadow: 0 0 15px rgba(102, 192, 244, 0.4); 
+}
+
+.stat-button.active-title {
+    background-color: #66c0f4 !important;
+    border-color: #66c0f4 !important;
+    transform: translateX(-10px) !important;
+}
+
+.stat-button.active-title .btn-text {
+    color: #101214 !important;
+    font-weight: bold;
+}
+
+
+.leftcol-btn.active-sort:hover {
+    background-color: #47a6de !important; 
+    color: #000000 !important;
+}
+
+.leftcol-btn.active-sort:hover {
+    background-color: #47a6de !important;
+    transform: translateY(0);
+}
 .rightcol {
     flex: 1;
     height: 100%;
-    overflow-y: auto; /* To włącza scrollowanie listy gier */
-    overflow-x: hidden; /* Blokuje wychodzenie na boki */
-    padding: 10px 10px 10px 40px; /* Padding 40px z lewej chroni przyciski przed ucinaniem przy hoverze */
+    overflow-y: auto; 
+    overflow-x: hidden; 
+    padding: 10px 10px 10px 40px; 
 }
-
-/* Stylizacja scrollbara biblioteki */
 .rightcol::-webkit-scrollbar {
     width: 6px;
 }
@@ -93,33 +127,33 @@
     border-radius: 10px;
 }
 
-/* PRZYCISK GRY NA LIŚCIE */
+
 .stat-button {
     display: flex;
     align-items: center;
     background: rgba(35, 39, 48, 0.6);
     width: 100%;
-    height: 110px; /* Wysokość dopasowana do pionowego plakatu */
+    height: 110px; 
     margin-bottom: 15px;
     border: 1px solid rgba(255, 255, 255, 0.03);
     border-radius: 10px;
     padding: 10px;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    flex-shrink: 0; /* Zapobiega zgniataniu przycisku */
+    flex-shrink: 0; 
 }
 
 .stat-button:hover {
-    transform: translateX(-20px); /* Przesunięcie w lewo */
+    transform: translateX(-20px);
     background: rgba(102, 192, 244, 0.15);
     border-color: #66c0f4;
 }
 
 .stat-button.active-title {
     background: #66c0f4 !important;
+    box-shadow: 0 0 15px rgba(102, 192, 244, 0.4);
 }
 
-/* PIONOWY PLAKAT GRY */
 .btn-img {
     height: 90px; /* Stała wysokość zdjęcia wewnątrz przycisku */
     aspect-ratio: 2 / 3; /* WYMUSZA PIONOWE PROPORCJE PLAKATU */
@@ -244,65 +278,137 @@
     padding: 2px 8px;
     border-radius: 10px;
 }
-
+.searchInput {
+    width: 100%;
+    padding-left: 30px;
+    border-radius: 20px;
+    background: #101214;
+}
+.searchInput:focus {
+    outline: none;
+    border-color: #66c0f4;
+}
+.searchInput::placeholder {
+    color: #555;
+}
+.searchInput:hover {
+    background: #1b2838;
+    border-color: #66c0f4;
+}
+.fas-fa-search {
+    position: absolute;
+    left: 10px;
+    top: 12px;
+    font-size: 12px;
+    color: #444;
+}
 @media (max-width: 900px) {
+    /* Zmieniamy układ całego panelu na pionowy */
     .drugi-panel {
-        flex-direction: column;
-        padding: 4em 2% 2em;
+        flex-direction: column !important; /* Panel statystyk na dół, gry na górę */
         height: auto;
+        overflow-y: visible;
+        padding: 5em 3% 2em;
+        gap: 15px;
     }
 
-    .leftcol,
+    /* Prawy panel (lista gier) - teraz będzie na górze i przewijany w bok */
     .rightcol {
+        order: 1; /* Wymuszamy, by lista gier była pierwsza */
         width: 100%;
         height: auto;
-        padding: 20px 0;
+        padding: 10px 0;
+        overflow-x: auto; /* Włączamy przewijanie poziome */
+        overflow-y: hidden;
+        display: flex;
+        flex-direction: row; /* Przyciski obok siebie */
+        gap: 15px;
+        -webkit-overflow-scrolling: touch; /* Płynne przewijanie na iOS */
     }
 
-    .leftcol-bar {
-        flex-wrap: wrap;
-        gap: 10px;
+    /* Układ kontenera z przyciskami gier */
+    .rightcol-content {
+        display: flex;
+        flex-direction: row; /* Gry w jednym rzędzie */
+        gap: 12px;
+        padding-bottom: 10px;
     }
 
-    .leftcol-bar > div {
-        width: 100% !important;
-    }
-
-    .leftcol-bar input {
-        width: 100%;
-    }
-
-    .rightcol {
-        padding-left: 0;
-    }
-
+    /* Styl pojedynczego plakatu w wersji mobilnej */
     .stat-button {
-        height: auto;
-        flex-direction: row;
-        align-items: center;
-        padding: 12px;
+        flex-direction: column; /* Plakat nad tekstem */
+        width: 120px; /* Stała szerokość kafelka */
+        height: 200px; /* Stała wysokość */
+        flex-shrink: 0; /* Nie pozwól gierom się zgniatać */
+        margin-bottom: 0;
+        padding: 8px;
+        text-align: center;
+    }
+
+    .stat-button:hover {
+        transform: translateY(-5px); /* Na mobile lepiej unosić do góry niż w lewo */
+    }
+
+    .stat-button.active-title {
+        transform: translateY(-5px); /* Wybrana gra lekko uniesiona */
     }
 
     .btn-img {
-        height: 70px;
-        margin-right: 12px;
+        width: 100%;
+        height: 140px;
+        margin-right: 0;
+        margin-bottom: 8px;
     }
 
     .btn-text {
-        font-size: 0.95rem;
+        white-space: normal; /* Pozwól nazwie gry przejść do nowej linii */
+        font-size: 11px;
+        line-height: 1.2;
+    }
+
+    /* Lewy panel (statystyki) - pod listą gier */
+    .leftcol {
+        order: 2;
+        width: 100%;
+        flex: none;
+        height: auto;
+        min-height: 300px;
+    }
+
+    /* Przyciski sortowania - żeby się nie gniotły, dajemy im przewijanie jeśli jest ich dużo */
+    .leftcol-bar {
+        overflow-x: auto;
+        white-space: nowrap;
+        justify-content: flex-start;
     }
 }
-
-@media (max-width: 600px) {
-    .drugi-panel {
-        padding: 3.5em 10px 1.5em;
+@media (max-width: 900px) {
+    /* Kontener wyszukiwarki */
+    .mobile-search-container {
+        width: 100%;
+        padding: 10px 20px;
+        box-sizing: border-box;
+        height: 10vh;
     }
 
-    .stat-button {
-        gap: 10px;
+    /* Wygląd samego pola wpisywania */
+    .searchInput {
+        width: 100% !important;
+        background: #2a475e !important; /* Ciemniejszy niebieski Steam */
+        border: 1px solid #4f94bc !important;
+        border-radius: 4px !important;
+        color: white !important;
+        padding: 12px 15px !important;
+        font-size: 16px !important; /* Zapobiega auto-zoomowi na iPhone */
+        outline: none;
     }
 
-    .btn-text {
-        white-space: normal;
+    .searchInput::placeholder {
+        color: #859bb2;
+    }
+
+    /* Ukrywamy starą wyszukiwarkę w pasku górnym, jeśli tam jeszcze jest */
+    .top-search-container {
+        display: none !important;
     }
 }
