@@ -1,139 +1,133 @@
-/* igor gra */
+/* ==========================================
+   GLOBALNE USTAWIENIA DLA QUIZU
+========================================== */
 .nowy-panel-sekcja {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Przyciski odpowiedzi */
-.answer-btn {
-    transition: all 0.2s ease-in-out !important;
-    font-size: 1.1rem !important;
-    border: 2px solid #444 !important;
-    min-height: 60px;
+h2, h3 {
+    letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
-.answer-btn:hover:not(:disabled) {
-    background-color: #66c0f4 !important;
-    border-color: #fff !important;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+/* ==========================================
+   GŁÓWNY KONTENER QUIZU (Tło i Glassmorphism)
+========================================== */
+.panel-gra {
+    width: 100%;
+    min-height: 800px;
+    /* Ciemne, głębokie tło z delikatnym gradientem */
+    background: radial-gradient(circle at 50% 0%, #1b2838 0%, #101214 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    clear: both;
+    padding: 40px 0;
 }
 
-.answer-btn:disabled {
-    cursor: not-allowed;
-    opacity: 0.8;
+.prostokat-srodek {
+    width: 85%;
+    max-width: 1200px;
+    height: 85vh;
+    min-height: 700px;
+    /* Efekt matowego szkła */
+    background: linear-gradient(135deg, rgba(30, 34, 40, 0.8), rgba(20, 22, 28, 0.95));
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px; /* Nowoczesne zaokrąglenie */
+    display: flex;
+    overflow: hidden;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
+/* ==========================================
+   LEWA KOLUMNA (MENU I STATYSTYKI)
+========================================== */
+.leftcol-gra {
+    flex: 1;
+    min-width: 250px;
+    background: rgba(0, 0, 0, 0.4); /* Przyciemnienie lewego panelu */
+    padding: 30px 20px;
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    flex-direction: column;
+}
 
+.leftcol-header-gra h2 {
+    color: #ffffff;
+    text-shadow: 0 0 10px rgba(102, 192, 244, 0.5);
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: 800;
+}
+
+/* HUD Statystyk */
+.game-stats {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(102, 192, 244, 0.2);
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.game-stats p {
+    margin: 10px 0;
+    font-size: 1.1rem;
+    color: #8f98a0;
+    display: flex;
+    justify-content: space-between; /* Rozsuwa tekst i liczby */
+}
+
+.game-stats strong {
+    color: #ffffff;
+    font-weight: bold;
+}
+
+#current-points {
+    color: #5cff5c; /* Zielony neon dla punktów */
+    text-shadow: 0 0 10px rgba(92, 255, 92, 0.4);
+}
+
+.leftcol-content-gra hr {
+    border: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    margin: 20px 0;
+}
+
+.leftcol-content-gra h3 {
+    font-size: 0.9rem;
+    color: #8f98a0;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* Przyciski wyboru kategorii (Styl zakładek) */
 .cat-btn {
-    border-radius: 4px;
-    transition: 0.3s;
+    width: 100%;
+    background: transparent;
+    color: #c7d5e0;
+    border: none;
+    border-left: 3px solid transparent; /* Niewidoczny pasek z lewej */
+    padding: 15px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    text-align: left;
+    border-radius: 0 8px 8px 0;
+    transition: all 0.3s ease;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
 
 .cat-btn:hover {
-    background-color: #66c0f4 !important;
-    color: white !important;
-    box-shadow: 0 0 10px #66c0f4;
-}
-
-
-#q-img {
-    border: 4px solid #171a21;
-    background-color: #171a21;
-    object-fit: cover;
-}
-
-
-.game-stats p {
-    margin: 10px 0;
-    font-size: 1.2rem;
-    color: #c7d5e0;
-}
-
-
-#result-screen h2 {
-    color: #5cff5c;
-    text-shadow: 0 0 10px rgba(92, 255, 92, 0.4);
-}
-
-
-/* ==========================================
-   GŁÓWNY KONTENER QUIZU
-========================================== */
-.panel-gra {
-    width: 100%;
-    height: 800px;
-    background-color: #1B2838;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    clear: both;
-}
-
-.prostokat-srodek {
-    width: 85%;
-    height: 90%;
-    background-color: #2a2d32;
-    display: flex;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-}
-
-/* ==========================================
-   LEWA KOLUMNA (MENU)
-========================================== */
-.leftcol-gra {
-    flex: 1;
-    background: rgba(0,0,0,0.2);
-    padding: 20px;
-    border-right: 1px solid #444;
-}
-
-.leftcol-header-gra h2 {
-    color: #66c0f4;
-    text-align: center;
-}
-
-.game-stats {
-    background: #171a21;
-    padding: 15px;
-    border-radius: 5px;
-    margin-bottom: 20px;
-}
-
-#current-points {
-    color: #5cff5c;
-}
-
-.leftcol-content-gra hr {
-    border: 0;
-    border-top: 1px solid #444;
-    margin: 20px 0;
-}
-
-.leftcol-content-gra h3 {
-    font-size: 1rem;
-    margin-bottom: 15px;
-}
-
-/* Przyciski wyboru kategorii */
-.cat-btn {
-    width: 100%;
-    background: #1b2838;
-    color: #66c0f4;
-    border: 1px solid #66c0f4;
-    padding: 12px;
-    margin-bottom: 10px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background 0.2s, color 0.2s; /* Płynna animacja */
-}
-
-.cat-btn:hover {
-    background: #66c0f4;
-    color: #1b2838;
+    background: linear-gradient(90deg, rgba(102, 192, 244, 0.15), transparent);
+    border-left: 3px solid #66c0f4; /* Niebieski pasek akcentujący */
+    color: #ffffff;
+    text-shadow: 0 0 8px rgba(102, 192, 244, 0.5);
+    transform: translateX(5px); /* Lekkie przesunięcie w prawo */
 }
 
 /* ==========================================
@@ -141,171 +135,267 @@
 ========================================== */
 .rightcol-gra {
     flex: 3;
-    padding: 30px;
+    padding: 50px;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    position: relative;
 }
 
 /* EKRAN POWITALNY */
 #welcome-screen {
     text-align: center;
+    animation: fadeIn 0.8s ease-out;
 }
 
 #welcome-screen h1 {
-    color: #66c0f4;
-    font-size: 2.5rem;
+    font-size: 4rem;
+    font-weight: 900;
+    margin-bottom: 10px;
+    /* Nakładanie gradientu na tekst! */
+    background: linear-gradient(to right, #66c0f4, #b4e4ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 30px rgba(102, 192, 244, 0.3);
+    letter-spacing: 2px;
 }
 
 #welcome-screen p {
     color: #8f98a0;
+    font-size: 1.2rem;
+    margin-top: 0;
 }
 
 /* EKRAN AKTYWNEGO QUIZU */
 #quiz-active {
-    display: none; /* Ukryte na start, pokazywane przez JS */
+    display: none;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    animation: fadeIn 0.5s ease-out;
 }
 
 #image-container {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
 #q-img {
     max-height: 350px;
-    border-radius: 8px;
-    border: 2px solid #444;
+    border-radius: 12px;
+    border: 2px solid rgba(102, 192, 244, 0.3);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    object-fit: cover;
 }
 
 #q-text {
     text-align: center;
-    margin-bottom: 25px;
-    color: #aaa9a9;
+    font-size: 1.8rem;
+    margin-bottom: 40px;
+    color: #ffffff;
+    font-weight: 600;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
 }
 
+/* SIATKA ODPOWIEDZI */
 .answers-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 15px;
+    gap: 20px;
 }
 
-/* Przyciski z odpowiedziami */
+/* Przyciski z odpowiedziami (Styl premium) */
 .answer-btn {
-    background: #3d4450;
-    color: white;
-    border: 1px solid #555;
-    padding: 15px;
+    background: rgba(255, 255, 255, 0.03) !important;
+    color: #e5e5e5;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    padding: 20px;
     cursor: pointer;
-    border-radius: 4px;
-    transition: background 0.2s;
+    border-radius: 12px;
+    font-size: 1.2rem !important;
+    font-weight: bold;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+    min-height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    backdrop-filter: blur(5px);
 }
 
-.answer-btn:hover {
-    background: #4b5363;
+.answer-btn:hover:not(:disabled) {
+    background: rgba(102, 192, 244, 0.1) !important;
+    border-color: #66c0f4 !important;
+    color: #ffffff;
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(102, 192, 244, 0.3), inset 0 0 15px rgba(102, 192, 244, 0.1);
+}
+
+.answer-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    transform: none;
 }
 
 /* EKRAN KOŃCOWY */
 #result-screen {
-    display: none; /* Ukryte na start, pokazywane przez JS */
+    display: none;
     text-align: center;
+    animation: fadeIn 0.8s ease-out;
+}
+
+#result-screen h2 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    background: linear-gradient(to right, #5cff5c, #a8ffa8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 30px rgba(92, 255, 92, 0.3);
 }
 
 .score-text {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
+    color: #e5e5e5;
+    margin-bottom: 40px;
 }
 
 #final-score {
     color: #66c0f4;
+    font-weight: 900;
+    font-size: 2.5rem;
+    text-shadow: 0 0 15px rgba(102, 192, 244, 0.6);
 }
 
+/* Główny przycisk akcji (Zagraj ponownie) */
 .reload-btn {
-    background: #66c0f4;
+    background: linear-gradient(135deg, #66c0f4, #2a475e);
     border: none;
     color: white;
-    padding: 10px 20px;
+    padding: 15px 40px;
     cursor: pointer;
-    border-radius: 4px;
-    margin-top: 15px;
+    border-radius: 30px; /* Styl pigułki */
+    font-size: 1.2rem;
     font-weight: bold;
-    transition: background 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    box-shadow: 0 10px 20px rgba(102, 192, 244, 0.4);
+    transition: all 0.3s ease;
 }
 
 .reload-btn:hover {
-    background: #54a5d3;
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 15px 30px rgba(102, 192, 244, 0.6);
 }
 
-@media (max-width: 900px) {
-    .panel-gra {
-        height: auto;
-        padding: 40px 10px 30px;
-    }
-
-    .prostokat-srodek {
-        flex-direction: column;
-        width: 95%;
-        height: auto;
-        gap: 15px;
-    }
-
-    .leftcol-gra {
-        border-right: none;
-        border-bottom: 1px solid #444;
-        padding: 20px 16px;
-    }
-
-    .rightcol-gra {
-        padding: 20px 16px;
-    }
-
-    .game-stats p {
-        font-size: 1rem;
-    }
-
-    .cat-btn {
-        padding: 10px;
-        font-size: 0.95rem;
-    }
-
-    #q-img {
-        max-height: 230px;
-        width: 100%;
-    }
-
-    .answers-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .answer-btn {
-        font-size: 1rem;
-        min-height: 55px;
-    }
-
-    #welcome-screen h1 {
-        font-size: 2rem;
-    }
+/* Prosta animacja pojawiania się elementów */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-@media (max-width: 600px) {
-    .prostokat-srodek {
-        width: 100%;
-        border-radius: 0;
-        box-shadow: none;
-    }
+/* --- STANY ODPOWIEDZI (Dobre / Złe) --- */
 
-    .leftcol-gra,
-    .rightcol-gra {
-        padding: 15px;
-    }
+/* Poprawna odpowiedź - Neonowa zieleń */
+.answer-btn.correct {
+    background: rgba(92, 255, 92, 0.15) !important;
+    border-color: #5cff5c !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 25px rgba(92, 255, 92, 0.4), inset 0 0 15px rgba(92, 255, 92, 0.2) !important;
+    transform: scale(1.02);
+}
 
-    .panel-gra {
-        padding: 20px 8px 25px;
-    }
+/* Zła odpowiedź - Neonowa czerwień */
+.answer-btn.wrong {
+    background: rgba(255, 77, 77, 0.15) !important;
+    border-color: #ff4d4d !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 25px rgba(255, 77, 77, 0.4), inset 0 0 15px rgba(255, 77, 77, 0.2) !important;
+}
+/* ==========================================
+   EFEKTY WIZUALNE I POPRAWKI (Dodane nowości)
+========================================== */
 
-    #q-text {
-        font-size: 1rem;
-    }
+/* 1. Animowane kształty (Mgła w tle) */
+.bg-shape {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    z-index: 0;
+    opacity: 0.6;
+    animation: floatShape 20s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-    .answer-btn {
-        padding: 12px;
-    }
+.bg-shape1 {
+    width: 600px;
+    height: 600px;
+    background: #66c0f4; /* Niebieski Steam */
+    top: -10%;
+    left: -10%;
+}
+
+.bg-shape2 {
+    width: 500px;
+    height: 500px;
+    background: #1b2838; /* Głębszy granatowy */
+    bottom: -10%;
+    right: 0%;
+    animation-delay: -5s;
+    animation-duration: 25s;
+}
+
+@keyframes floatShape {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(100px, 100px) scale(1.3); }
+}
+
+/* 2. Poprawka ikon w menu wyboru gier */
+.cat-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.cat-btn i {
+    font-size: 1.2rem;
+    opacity: 0.8;
+    transition: transform 0.3s ease;
+}
+
+.cat-btn:hover i {
+    transform: scale(1.2);
+    color: #ffffff;
+}
+
+/* 3. Tuszowanie zepsutego obrazka */
+/* Jeśli obrazek nie może się załadować, zniknie całkowicie dzięki temu trikowi */
+#q-img {
+    position: relative;
+    color: transparent; /* Ukrywa tekst "alt" */
+    min-height: 0;
+}
+
+#q-img::before {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: #171a21; /* Tło takie samo jak plansza */
+}
+
+/* Jeśli obrazek załaduje się poprawnie (ma sensowny rozmiar), wymuś pokazanie */
+#q-img[src]:not([src=""]) {
+    min-height: 200px;
+}
+/* --- NIESTANDARDOWY KURSOR --- */
+
+/* --- TWÓJ WŁASNY KURSOR (ZBUDOWANY W 100% Z KODU SVG) --- */
+
+/* DOMYŚLNY KURSOR (Czarny wskaźnik z niebieską ramką) */
+body {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26"><polygon points="1,1 21,9 11,11 9,21" fill="%23171A21" stroke="%2366c0f4" stroke-width="2" stroke-linejoin="round"/></svg>'), auto !important;
+}
+
+/* KURSOR KLIKALNY - HOVER (Niebieski wskaźnik z białą ramką) */
+a, button, input, .kolko-awatar, .znaczek-logo, .cat-btn, .answer-btn {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26"><polygon points="1,1 21,9 11,11 9,21" fill="%2366c0f4" stroke="%23ffffff" stroke-width="2" stroke-linejoin="round"/></svg>'), pointer !important;
 }

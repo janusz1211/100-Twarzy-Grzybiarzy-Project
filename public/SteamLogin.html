@@ -1,30 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Steam Login</title>
+    <title>Steam Login | 100 Twarzy Grzybiarzy</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="tile2.css">
     <link rel="stylesheet" href="Steamlogin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="theme.css">
 </head>
 <body>
+    
     <div id="gora-pasek">
-       <div class="menu-ikona" onclick="toggleMenu()">=</div>
+        <div class="topbar-left">
+            <div class="znaczek-logo" id="main-logo" onclick="refhome()">L</div>
+        </div>
 
-    <nav id="side-menu" class="side-menu">
-        <a href="#pierwszy-panel" onclick="refhome()">Strona Główna</a>
-    </nav>
-          <div id="userAvatarContainer" class="kolko-awatar">
-                <div class="glowa"></div>
-                <div class="ramiona"></div>
-          </div>
-          <button onclick="wyloguj()" id="LogoutButton">Wyloguj</button>
+        <div class="topbar-center">
+            <nav class="top-nav">
+                <a href="#" onclick="refhome()" class="nav-link"><i class="fas fa-arrow-left"></i> Powrót do Huba</a>
+            </nav>
+        </div>
+
+        <div class="topbar-right">
+            <div class="avatar-dropdown-container">
+                <div id="userAvatarContainer" class="kolko-awatar" onclick="toggleAvatarMenu()">
+                    <div class="glowa"></div>
+                    <div class="ramiona"></div>
+                </div>
+                
+                <div id="avatar-menu" class="avatar-dropdown">
+                    <div class="dropdown-header">
+                        <span>Witaj, Grzybiarzu!</span>
+                    </div>
+                    <hr class="dropdown-divider">
+                    <a href="#" onclick="wyloguj()" class="dropdown-item" id="LogoutButton" style="color: #ff5c5c;">
+                        <i class="fas fa-sign-out-alt"></i> Wyloguj
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
-    <div id="loginSection">
-        <div class="login-card">
+
+    <div id="loginSection" style="margin-top: 100px;"> <div class="login-card">
             <div class="steam-logo-circle">
                <i class="fab fa-steam"></i>
             </div>
@@ -42,35 +60,36 @@
             <div id="wynik"></div>
         </div>
     </div>
-    <footer class="main-footer">
-    <div class="footer-content">
-        <div class="footer-section about">
-            <h2 class="footer-logo">100 TWARZY<span>GRZYBIARZY</span></h2>
-            <p>Lubie grzyby</p>
-        </div>
 
-        <div class="footer-section contact">
-            <h3>Kontakt</h3>
-            <p><i class="fas fa-envelope"></i> 100twarzygrzybiarzy@gmail.com</p>
-            
-            <div class="social-icons">
-                <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=3571412768"><i class="fab fa-discord"></i></a>
-                <a href="#"><i class="fab fa-steam"></i></a>
-                <a href="#"><i class="fab fa-github"></i></a>
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-section about">
+                <h2 class="footer-logo">100 TWARZY<span>GRZYBIARZY</span></h2>
+                <p>Lubie grzyby</p>
+            </div>
+
+            <div class="footer-section contact">
+                <h3>Kontakt</h3>
+                <p><i class="fas fa-envelope"></i> 100twarzygrzybiarzy@gmail.com</p>
+                
+                <div class="social-icons">
+                    <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=3571412768"><i class="fab fa-discord"></i></a>
+                    <a href="#"><i class="fab fa-steam"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-section accessibility">
+                <h3>Ustawienia strony</h3>
+                <button class="a11y-footer-btn" onclick="toggleA11yPanel()" aria-label="Otwórz panel ułatwień dostępu">
+                    <i class="fas fa-universal-access"></i> Ułatwienia dostępu
+                </button>
             </div>
         </div>
 
-        <div class="footer-section accessibility">
-            <h3>Ustawienia strony</h3>
-            <button class="a11y-footer-btn" onclick="toggleA11yPanel()" aria-label="Otwórz panel ułatwień dostępu">
-                <i class="fas fa-universal-access"></i> Ułatwienia dostępu
-            </button>
+        <div class="footer-bottom">
+            &copy; 2026 100 TWARZY GRZYBIARZY | CREATED BY SIGMY
         </div>
-    </div>
-
-    <div class="footer-bottom">
-        &copy; 2026 100 TWARZY GRZYBIARZY | CREATED BY SIGMY
-    </div>
     </footer>
 
     <script src="script.js"></script>
@@ -78,5 +97,4 @@
     <script src="game.js"></script>
     <script src="dscript.js"></script>
 </body>
-
 </html>

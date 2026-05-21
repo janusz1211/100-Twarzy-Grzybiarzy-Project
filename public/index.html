@@ -11,106 +11,111 @@
     <link rel="stylesheet" href="emebeded-content.css">
     <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="theme.css">
 </head>
 <body>
-    
 <div id="gora-pasek">
-    <div class="menu-ikona" onclick="toggleMenu()">=</div>
-    <div class="znaczek-logo" id="main-logo">L</div>
-<div class="top-search-container">
-        <input type="text" id="game-search-input" placeholder="Wyszukaj grę na Steam..." autocomplete="off">
-        <i class="fas fa-search"></i>
-        <div id="search-suggestions" class="suggestions-box"></div>
+    <div class="topbar-left">
+        <div class="znaczek-logo" id="main-logo">L</div>
     </div>
 
-<nav id="side-menu" class="side-menu">
-    <a href="#pierwszy-panel" onclick="toggleMenu()">Strona Główna</a>
-    <a href="#drugi-panel" onclick="toggleMenu()">Statystyki</a>
-    <a href="YtSearch.html" onclick="toggleMenu()">Wyszukiwarka</a>
-    <a href="Steamlogin.html" target="_self" onclick="toggleMenu()">Logowanie</a>
-</nav>
-        <div id="userAvatarContainer" class="kolko-awatar">
-            <div class="glowa"></div>
-            <div class="ramiona"></div>
+    <div class="topbar-center">
+    <nav class="top-nav">
+        <a href="#pierwszy-panel" class="nav-link"><i class="fas fa-home"></i> Główna</a>
+        <a href="#drugi-panel" class="nav-link"><i class="fas fa-chart-bar"></i> Statystyki</a>
+        <a href="#trzeci-panel" class="nav-link"><i class="fas fa-search"></i> Wyszukiwarka</a>
+        <a href="game.html" class="nav-link"><i class="fas fa-gamepad"></i> Zagraj w Quiz</a>
+    </nav>
+</div>
+
+    <div class="topbar-right">
+        <div class="top-search-container">
+            <input type="text" id="game-search-input" placeholder="Wyszukaj grę na Steam..." autocomplete="off">
+            <i class="fas fa-search"></i>
+            <div id="search-suggestions" class="suggestions-box"></div>
         </div>
+        
+        <div class="avatar-dropdown-container">
+            <div id="userAvatarContainer" class="kolko-awatar" onclick="toggleAvatarMenu()">
+                <div class="glowa"></div>
+                <div class="ramiona"></div>
+            </div>
+            
+            <div id="avatar-menu" class="avatar-dropdown">
+                <div class="dropdown-header">
+                    <span>Witaj, Grzybiarzu!</span>
+                </div>
+                <hr class="dropdown-divider">
+                <a href="Steamlogin.html" class="dropdown-item">
+                    <i class="fab fa-steam"></i> Zaloguj przez Steam
+                </a>
+                <a href="#" class="dropdown-item">
+                    <i class="fas fa-cog"></i> Ustawienia
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
 
     <div class="pierwszy-panel" id="pierwszy-panel">
         <div class="gallery js-flickity" data-flickity-options='{ "wrapAround": true }'>
             <div class="gallery-cell"><img src="/pliki/zdjęcia/hi.gif" alt="hi"></div>
             <div class="gallery-cell" id="yt-live-cell">
-    <div class="yt-loading">Ładowanie najpopularniejszego streama YT...</div>
-</div>
+                <div class="yt-loading">Ładowanie najpopularniejszego streama YT...</div>
+            </div>
             <div class="gallery-cell" id="kick-cell">
-    <div class="kick-loading">Ładowanie najpopularniejszego streama z Kicka...</div>
-</div>
+                <div class="kick-loading">Ładowanie najpopularniejszego streama z Kicka...</div>
+            </div>
             <div class="gallery-cell" id="twitch-cell">
                 <div class="twitch-loading">Ładowanie najpopularniejszego streama z Twitcha...</div>
             </div>
         </div>
     </div>
-
-<div id="gra" class="panel-gra">
-    <div class="prostokat-srodek">
-        
-        <div class="leftcol-gra">
-            <div class="leftcol-header-gra">
-                <h2>Centrum Quizu</h2>
-            </div>
-            <div class="leftcol-content-gra">
-                <div class="game-stats">
-                    <p>Punkty: <strong id="current-points">0</strong></p>
-                    <p>Pytanie: <strong id="question-counter">0/10</strong></p>
-                </div>
-                
-                <hr>
-                
-                <h3>Wybierz Grę:</h3>
-                <div class="category-selector">
-                    <button class="cat-btn" onclick="selectCategory('CS2')">Counter-Strike 2</button>
-                    <button class="cat-btn" onclick="selectCategory('Wiedźmin')">Wiedźmin 3</button>
-                    <button class="cat-btn" onclick="selectCategory('Isaac')">Isaac</button>
-                </div>
+    <div class="drugi-panel" id="drugi-panel">
+        <div class="rightcol">
+            <div class="rightcol-content">
+                <button class="stat-button"></button>
+                <button class="stat-button"></button>
+                <button class="stat-button"></button>
+                <button class="stat-button"></button>
+                <button class="stat-button"></button>
             </div>
         </div>
-
-        <div class="rightcol-gra">
-            
-            <div id="welcome-screen">
-                <h1>MILIONERZY</h1>
-                <p>Wybierz kategorię po lewej, aby rozpocząć grę!</p>
-            </div>
-
-            <div id="quiz-active">
-                <div id="image-container">
-                    <img id="q-img" src="" alt="Obrazek do pytania">
-                </div>
-                <h2 id="q-text">Pytanie...</h2>
-                
-                <div class="answers-grid">
-                    <button class="answer-btn" onclick="handleAnswer(0)">Opcja A</button>
-                    <button class="answer-btn" onclick="handleAnswer(1)">Opcja B</button>
-                    <button class="answer-btn" onclick="handleAnswer(2)">Opcja C</button>
-                    <button class="answer-btn" onclick="handleAnswer(3)">Opcja D</button>
+        <div class="leftcol">
+            <div class="leftcol-bar">
+                <button class="leftcol-btn active-sort" onclick="sortujGry('playtime', this)">Top Playtime</button>
+                <button class="leftcol-btn" onclick="sortujGry('name', this)">Alphabetical</button>
+                <button class="leftcol-btn" onclick="sortujGry('recent', this)">Recently Played</button>
+                <div style="position: relative; width: 25%;">
+                    <input type="text" id="searchInput" placeholder="Search..." oninput="filtrujGry()" 
+                        style="width: 100%; padding-left: 30px; border-radius: 20px; background: #101214;">
+                    <i class="fas fa-search" style="position: absolute; left: 10px; top: 12px; font-size: 12px; color: #444;"></i>
                 </div>
             </div>
-
-            <div id="result-screen">
-                <h2>Koniec Gry!</h2>
-                <p class="score-text">Twój wynik: <span id="final-score">0</span>/10</p>
-                <button class="reload-btn" onclick="location.reload()">Zagraj ponownie</button>
+            <div class="leftcol-content">
             </div>
-
         </div>
     </div>
+
+
+
+
+<div class="trzeci-panel" id="trzeci-panel">
+    <div class="sidebar">
+        <input type="text" id="youtube-query" placeholder="Wyszukaj..">
+        <button id="search-btn">Szukaj</button>
+    </div>
+    <div id="video-results"></div>
+    <div id="pagination-container" style="margin-top: 20px; display: none;">
+        <button id="load-more-btn">Załaduj więcej</button>
+    </div>
 </div>
-<!--dawid-->
-<section class="sekcja-przejscia" style="text-align: center; padding: 50px; background: #1a1d20;">
-    <h2 style="color: white; margin-bottom: 20px;">Yt?</h2>
-    <a href="YtSearch.html" class="stat-button" style="display: inline-block; padding: 15px 40px; text-decoration: none; background: #e91e63; color: white; border-radius: 5px; font-weight: bold;">Otwórz Wyszukiwarkę</a>
-</section>
-<!--dawid-->
+
+<div id="video-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <iframe id="youtube-player" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    </div>
+</div>
 <footer class="main-footer">
     <div class="footer-content">
         <div class="footer-section about">
@@ -149,15 +154,6 @@
     </div>
     
     <div class="a11y-content">
-    <div class="a11y-option">
-        <span class="a11y-label-text">Jasny motyw</span>
-        <label class="switch">
-            <input type="checkbox" id="theme-toggle">
-            <span class="slider round"></span>
-        </label>
-    </div>
-
-    <div class="a11y-content">
         <div class="a11y-option">
             <span class="a11y-label-text">Tryb dla daltonistów (Protanopia)</span>
             <label class="switch">
@@ -184,26 +180,19 @@
     </div>
 </div>
 
-<div id="video-modal" class="modal">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeModal()">&times;</span>
-        <iframe id="youtube-player" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-    </div>
+<div id="footer-cat" class="footer-cat-wrapper">
+    <img src="https://cdn-icons-png.flaticon.com/512/1864/1864514.png" alt="Kotek">
 </div>
 
+<div id="secret-egg" class="hidden">
+    <img src="/pliki/zdjęcia/jumpscare.png" class="fullscreen-photo" alt="Niespodzianka">
+</div>
 
     <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
-<div id="footer-cat" class="footer-cat-wrapper">
-        <img src="https://cdn-icons-png.flaticon.com/512/1864/1864514.png" alt="Kotek">
-    </div>
-
-<div id="secret-egg" class="hidden">
-        <img src="/pliki/zdjęcia/jumpscare.png" class="fullscreen-photo" alt="Niespodzianka">
-    </div>
     <script src="script.js"></script>
     <script src="SteamAPI.js"></script>
     <script src="game.js"></script>
-    <script src="twitchapi.js"></script>
     <script src="dscript.js"></script>
+    <script src="twitchapi.js"></script>
 </body>
 </html>

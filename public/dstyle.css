@@ -1,21 +1,15 @@
-body {
-    margin: 0;
-    padding: 0;
-    min-height: 100vh;
-    background-color: #1B2838;
-    color: white;
-}
-
 .trzeci-panel {
     background-color: #1B2838;
-    min-height: 100vh;
-    width: 100%;
+    min-height: 800px;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
     padding: 60px 20px;
     box-sizing: border-box;
+    transition: all 0.5s ease-in-out; 
 }
+
 
 
 .sidebar {
@@ -186,47 +180,4 @@ body {
     color: #555;
     font-family: sans-serif;
     font-weight: bold;
-}
-
-@media (max-width: 900px) {
-    .trzeci-panel {
-        padding: 40px 16px;
-        min-height: auto;
-    }
-
-    .sidebar {
-        width: 100%;
-        margin-right: 0;
-    }
-
-    #video-results {
-        grid-template-columns: repeat(2, 1fr);
-        width: 100%;
-        max-width: 100%;
-    }
-
-    .modal-content {
-        width: 95%;
-        max-width: 700px;
-    }
-
-    .close-btn {
-        top: 10px;
-        right: 10px;
-        font-size: 30px;
-    }
-}
-
-@media (max-width: 600px) {
-    #video-results {
-        grid-template-columns: 1fr;
-    }
-
-    .sidebar {
-        padding: 0;
-    }
-
-    #pagination-container {
-        padding-top: 10px;
-    }
 }
