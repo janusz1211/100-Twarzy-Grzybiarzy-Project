@@ -7,23 +7,58 @@ let wyswietloneGry = 0;
 let wybranyAppId = null; 
 const PORCJA_GIER = 6; 
 
-async function wyciagnijSteamID(link) {
-    const cleanLink = link.replace(/\/$/, "");
-    const parts = cleanLink.split('/');
-    const lastPart = parts.pop();
+// 1. GŁÓWNA FUNKCJA LOGOWANIA (wywoływana przez onclick="wyciagnijSteamID()" w HTML)
+async function wyciagnijSteamID() {
+    const inputElement = document.getElementById('steamInput');
+    const wynikDiv = document.getElementById('wynik');
+    
+    if (!inputElement) return;
+    const link = inputElement.value.trim();
 
-    if (cleanLink.includes('/id/')) {
-        const resolveUrl = `https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/?key=${apiKey}&vanityurl=${lastPart}`;
-        const response = await fetch(proxyUrl + encodeURIComponent(resolveUrl));
-        const data = await response.json();
-        if (data.response.success === 1) return data.response.steamid;
-        throw new Error("Użytkownik nie został znaleziony.");
-    } else if (cleanLink.includes('/profiles/')) {
-        return lastPart;
+    // Sprawdzenie czy użytkownik w ogóle coś wpisał
+    if (!link) {
+        if (wynikDiv) wynikDiv.innerHTML = "<p style='color: #ff4d4d;'>Proszę wprowadzić link do profilu Steam!</p>";
+        return;
     }
-    throw new Error("Nieprawidłowy format linku Steam.");
+
+    if (wynikDiv) wynikDiv.innerHTML = "<p style='color: #66c0f4;'>Trwa sprawdzanie profilu...</p>";
+
+    try {
+        const cleanLink = link.replace(/\/$/, "");
+        const parts = cleanLink.split('/');
+        const lastPart = parts.pop();
+        let steamId = "";
+
+        // Parsowanie linku Steam custom URL (/id/) lub bezpośredniego (/profiles/)
+        if (cleanLink.includes('/id/')) {
+            const resolveUrl = `https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/?key=${apiKey}&vanityurl=${lastPart}`;
+            const response = await fetch(proxyUrl + encodeURIComponent(resolveUrl));
+            const data = await response.json();
+            
+            if (data.response && data.response.success === 1) {
+                steamId = data.response.steamid;
+            } else {
+                throw new Error("Nie znaleziono użytkownika o takim custom URL.");
+            }
+        } else if (cleanLink.includes('/profiles/')) {
+            steamId = lastPart;
+        } else {
+            throw new Error("Nieprawidłowy format linku. Wklej pełny link do profilu Steam.");
+        }
+
+        // Informacja o sukcesie i załadowanie profilu
+        if (wynikDiv) wynikDiv.innerHTML = "<p style='color: #4df14d;'>Zalogowano pomyślnie!</p>";
+        
+        // Wywołanie funkcji wyświetlającej profil gracza
+        await wyswietlProfil(steamId);
+
+    } catch (error) {
+        console.error("Błąd logowania:", error);
+        if (wynikDiv) wynikDiv.innerHTML = `<p style='color: #ff4d4d;'>${error.message}</p>`;
+    }
 }
 
+// 2. FUNKCJA WYŚWIETLANIA PROFILU
 async function wyswietlProfil(steamId) {
     try {
         const summaryUrl = `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=${apiKey}&steamids=${steamId}`;
@@ -34,18 +69,46 @@ async function wyswietlProfil(steamId) {
         if (gracz) {
             const container = document.getElementById('userAvatarContainer');
             if (container) {
-                container.innerHTML = `<img src="${gracz.avatarfull}" class="steam-avatar-overlay">`;
+                container.innerHTML = `<img src="${gracz.avatarfull}" class="steam-avatar-overlay" alt="Avatar">`;
             }
+            // Zapisujemy ID, aby sesja przetrwała odświeżenie strony
             localStorage.setItem('zapisaneSteamID', steamId);
+            
+            // Pobieranie gier wykona się tylko jeśli na stronie istnieje element kolumny gier
             if (document.querySelector('.rightcol')) {
                 await pobierzIGrafikiGier(steamId);
             }
         }
     } catch (error) {
-        console.error("Błąd profilu:", error);
+        console.error("Błąd ładowania profilu:", error);
     }
 }
 
+// 3. FUNKCJA WYLOGOWANIA (podpięta pod przycisk "Wyloguj" w HTML)
+function wyloguj() {
+    localStorage.removeItem('zapisaneSteamID');
+    
+    // Przywrócenie domyślnego pustego awatara w HTML
+    const container = document.getElementById('userAvatarContainer');
+    if (container) {
+        container.innerHTML = `
+            <div class="glowa"></div>
+            <div class="ramiona"></div>
+        `;
+    }
+    
+    // Reset komunikatów i formularza
+    const wynikDiv = document.getElementById('wynik');
+    if (wynikDiv) wynikDiv.innerHTML = "";
+    
+    const inputElement = document.getElementById('steamInput');
+    if (inputElement) inputElement.value = "";
+    
+    const containerGier = document.querySelector('.rightcol-content');
+    if (containerGier) containerGier.innerHTML = "";
+}
+
+// 4. FUNKCJE DOTYCZĄCE GIER I STATYSTYK (Pozostają bez zmian)
 async function pobierzIGrafikiGier(steamId) {
     try {
         const gamesUrl = `https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/?key=${apiKey}&steamid=${steamId}&include_appinfo=true&format=json`;
@@ -69,10 +132,7 @@ function filtrujGry() {
     if (!searchInput) return;
 
     const query = searchInput.value.toLowerCase();
-    
-    przefiltrowaneGry = zapisanaListaGier.filter(gra => 
-        gra.name.toLowerCase().includes(query)
-    );
+    przefiltrowaneGry = zapisanaListaGier.filter(gra => gra.name.toLowerCase().includes(query));
 
     wyswietloneGry = 0;
     const container = document.querySelector('.rightcol-content');
@@ -91,7 +151,6 @@ function sortujGry(metoda, kliknietyBtn) {
     const sortFn = (a, b) => {
         if (a.appid === wybranyAppId) return -1;
         if (b.appid === wybranyAppId) return 1;
-
         if (metoda === 'playtime') return (b.playtime_forever || 0) - (a.playtime_forever || 0);
         if (metoda === 'name') return a.name.localeCompare(b.name);
         if (metoda === 'recent') return (b.rtime_last_played || 0) - (a.rtime_last_played || 0);
@@ -123,10 +182,7 @@ function ladujWiecejGier() {
     kolejnaPorcja.forEach(gra => {
         const btn = document.createElement('button');
         btn.className = 'stat-button';
-        
-        if (gra.appid === wybranyAppId) {
-            btn.classList.add('active-title');
-        }
+        if (gra.appid === wybranyAppId) btn.classList.add('active-title');
         
         const verticalImg = `https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/${gra.appid}/library_600x900.jpg`;
         const wideImg = `https://cdn.akamai.steamstatic.com/steam/apps/${gra.appid}/header.jpg`;
@@ -141,32 +197,23 @@ function ladujWiecejGier() {
         btn.onclick = function() { 
             Showstats(gra.appid, gra.name, gra.playtime_forever, this); 
         };
-
         container.appendChild(btn);
     });
 
     wyswietloneGry += PORCJA_GIER;
 }
 
-// ADAPTACYJNY SCROLL (Pionowy dla PC, Poziomy dla Mobile)
 const rightCol = document.querySelector('.rightcol');
 if (rightCol) {
     rightCol.addEventListener('scroll', function() {
         const isMobile = window.innerWidth <= 900;
-        
         if (isMobile) {
-            // Detekcja końca przewijania w bok
             if (this.scrollLeft + this.clientWidth >= this.scrollWidth - 50) {
-                if (wyswietloneGry < przefiltrowaneGry.length) {
-                    ladujWiecejGier();
-                }
+                if (wyswietloneGry < przefiltrowaneGry.length) ladujWiecejGier();
             }
         } else {
-            // Detekcja końca przewijania w dół
             if (this.scrollTop + this.clientHeight >= this.scrollHeight - 50) {
-                if (wyswietloneGry < przefiltrowaneGry.length) {
-                    ladujWiecejGier();
-                }
+                if (wyswietloneGry < przefiltrowaneGry.length) ladujWiecejGier();
             }
         }
     });
@@ -174,7 +221,6 @@ if (rightCol) {
 
 async function Showstats(appId, titleName, playtime, clickedBtn) {
     wybranyAppId = appId;
-    
     const content = document.querySelector('.leftcol-content');
     const steamId = localStorage.getItem('zapisaneSteamID');
     
@@ -214,11 +260,13 @@ async function Showstats(appId, titleName, playtime, clickedBtn) {
     }
 }
 
-window.onload = async function() {
+// 5. BEZPIECZNE AUTOMATYCZNE LOGOWANIE PO ODŚWIEŻENIU
+// Zmieniono window.onload na addEventListener, aby nie nadpisywać innych skryptów (np. script.js)
+window.addEventListener('load', () => {
     const zapamietaneID = localStorage.getItem('zapisaneSteamID');
     if (zapamietaneID) {
         setTimeout(() => {
             wyswietlProfil(zapamietaneID);
         }, 50);
     }
-};
+});
