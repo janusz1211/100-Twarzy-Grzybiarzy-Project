@@ -333,3 +333,131 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+// Otwieranie/zamykanie menu po kliknięciu w awatar
+function toggleAvatarMenu() {
+    const menu = document.getElementById('avatar-menu');
+    menu.classList.toggle('active');
+}
+
+// Zamykanie menu, jeśli użytkownik kliknie gdzieś indziej na stronie
+document.addEventListener('click', function(event) {
+    const container = document.querySelector('.avatar-dropdown-container');
+    const menu = document.getElementById('avatar-menu');
+    
+    // Sprawdza czy kliknięto poza kontenerem menu
+    if (container && !container.contains(event.target)) {
+        if (menu.classList.contains('active')) {
+            menu.classList.remove('active');
+        }
+    }
+});
+
+
+
+// --- ROZWIJANE MENU AWATARA ---
+function toggleAvatarMenu() {
+    const menu = document.getElementById('avatar-menu');
+    if (menu) menu.classList.toggle('active');
+}
+
+// Zamykanie menu po kliknięciu gdzie indziej
+document.addEventListener('click', function(event) {
+    const container = document.querySelector('.avatar-dropdown-container');
+    const menu = document.getElementById('avatar-menu');
+    
+    if (container && menu && !container.contains(event.target)) {
+        if (menu.classList.contains('active')) {
+            menu.classList.remove('active');
+        }
+    }
+});
+
+// --- AKTUALIZACJA MENU AWATARA (Zalogowany/Niezalogowany) ---
+function aktualizujMenuAwatara() {
+    const avatarMenu = document.getElementById('avatar-menu');
+    if (!avatarMenu) return; 
+
+    // Skrypt SAM sprawdza, czy użytkownik ma zapisane ID
+    const steamId = localStorage.getItem('zapisaneSteamID');
+
+    if (steamId) {
+        // --- STAN ZALOGOWANY ---
+        avatarMenu.innerHTML = `
+            <div class="dropdown-header">
+                <span>Witaj, Grzybiarzu!</span>
+            </div>
+            <hr class="dropdown-divider">
+            <a href="#" class="dropdown-item">
+                <i class="fas fa-cog"></i> Ustawienia
+            </a>
+            <a href="#" onclick="wyloguj()" class="dropdown-item" style="color: #ff5c5c;">
+                <i class="fas fa-sign-out-alt"></i> Wyloguj
+            </a>
+        `;
+        
+        // Ukrywanie formularza na stronie logowania (jeśli na niej jesteśmy)
+        const loginSection = document.getElementById('loginSection');
+        if (loginSection) {
+            loginSection.innerHTML = `
+                <div class="login-card" style="text-align: center;">
+                    <div class="steam-logo-circle" style="color: #66c0f4;">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h1>Zalogowano!</h1>
+                    <p style="color: #8f98a0; margin-bottom: 20px;">Twój profil Steam jest połączony.</p>
+                    <button onclick="location.href='index.html'" id="SteamButton" style="background: #2a475e; border-color: #66c0f4;">
+                        <span>Wróć do Huba</span>
+                    </button>
+                </div>
+            `;
+        }
+    } else {
+        // --- STAN NIEZALOGOWANY ---
+        avatarMenu.innerHTML = `
+            <div class="dropdown-header">
+                <span>Witaj, Nieznajomy!</span>
+            </div>
+            <hr class="dropdown-divider">
+            <a href="Steamlogin.html" class="dropdown-item">
+                <i class="fab fa-steam"></i> Zaloguj przez Steam
+            </a>
+        `;
+    }
+}
+
+// --- WYLOGOWANIE ---
+function wyloguj() {
+    localStorage.removeItem('zapisaneSteamID'); // Usuwamy ID z pamięci
+    aktualizujMenuAwatara(); // Od razu zmieniamy menu z powrotem na "Zaloguj"
+    location.reload(); // Odświeżamy stronę, żeby wyczyścić profil i gry
+}
+
+// --- MEGA WAŻNE: Odpalanie funkcji od razu po załadowaniu strony ---
+document.addEventListener('DOMContentLoaded', function() {
+    aktualizujMenuAwatara();
+});
+
+// --- DELIKATNA POŚWIATA KURSORA (TRAIL) ---
+document.addEventListener('mousemove', function(e) {
+    // Tworzymy nowy element smugi
+    const trail = document.createElement('div');
+    trail.className = 'magic-trail';
+    
+    // Ustawiamy go dokładnie tam, gdzie jest myszka
+    trail.style.left = e.clientX + 'px';
+    trail.style.top = e.clientY + 'px';
+    
+    // Dodajemy go do strony
+    document.body.appendChild(trail);
+    
+    // Odpalamy animację w następnej klatce (żeby przeglądarka to płynnie wyrenderowała)
+    requestAnimationFrame(() => {
+        trail.style.opacity = '0'; // Znika
+        trail.style.transform = 'translate(-50%, -50%) scale(0.2)'; // Kurczy się
+    });
+    
+    // Po 400ms (czas trwania animacji w CSS) usuwamy element, żeby nie zapchać pamięci
+    setTimeout(() => {
+        trail.remove();
+    }, 400);
+});

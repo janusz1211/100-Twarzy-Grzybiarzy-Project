@@ -5,7 +5,7 @@ let zapisanaListaGier = [];
 let przefiltrowaneGry = [];
 let wyswietloneGry = 0;
 let wybranyAppId = null; 
-const PORCJA_GIER = 6; 
+const PORCJA_GIER = 10; 
 
 // 1. GŁÓWNA FUNKCJA LOGOWANIA (wywoływana przez onclick="wyciagnijSteamID()" w HTML)
 async function wyciagnijSteamID() {

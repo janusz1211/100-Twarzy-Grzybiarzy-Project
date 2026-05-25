@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centrum Quizu | 100 Twarzy Grzybiarzy</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="game.css"> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+    <div id="gora-pasek">
+        <div class="topbar-left">
+            <div class="znaczek-logo" id="main-logo" onclick="location.href='index.html'">L</div>
+        </div>
+
+        <div class="topbar-center">
+            <nav class="top-nav">
+                <a href="index.html" class="nav-link"><i class="fas fa-arrow-left"></i> Powrót do Huba</a>
+            </nav>
+        </div>
+
+        <div class="topbar-right">
+            <div class="avatar-dropdown-container">
+                <div id="userAvatarContainer" class="kolko-awatar" onclick="toggleAvatarMenu()">
+                    <div class="glowa"></div>
+                    <div class="ramiona"></div>
+                </div>
+                
+                <div id="avatar-menu" class="avatar-dropdown">
+                    <div class="dropdown-header">
+                        <span>Witaj, Grzybiarzu!</span>
+                    </div>
+                    <hr class="dropdown-divider">
+                    <a href="Steamlogin.html" class="dropdown-item">
+                        <i class="fab fa-steam"></i> Zaloguj przez Steam
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="gra" class="panel-gra" style="margin-top: 70px; min-height: 90vh; position: relative; z-index: 1;">
+        
+        <div class="bg-shape bg-shape1"></div>
+        <div class="bg-shape bg-shape2"></div>
+
+        <div class="prostokat-srodek" style="z-index: 2; position: relative;">
+            
+            <div class="leftcol-gra">
+                <div class="leftcol-header-gra">
+                    <h2>Centrum Quizu</h2>
+                </div>
+                <div class="leftcol-content-gra">
+                    <div class="game-stats">
+                        <p>Punkty: <strong id="current-points">0</strong></p>
+                        <p>Pytanie: <strong id="question-counter">1/10</strong></p>
+                    </div>
+                    
+                    <hr>
+                    
+                    <h3>Wybierz Grę:</h3>
+                    <div class="category-selector">
+                        <button class="cat-btn" onclick="selectCategory('CS2')"><i class="fas fa-crosshairs"></i> Counter-Strike 2</button>
+                        <button class="cat-btn" onclick="selectCategory('Wiedźmin')"><i class="fas fa-khanda"></i> Wiedźmin 3</button>
+                        <button class="cat-btn" onclick="selectCategory('Isaac')"><i class="fas fa-sad-tear"></i> Isaac</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rightcol-gra">
+                <div id="welcome-screen">
+                    <h1>MILIONERZY</h1>
+                    <p>Wybierz kategorię po lewej, aby rozpocząć grę!</p>
+                </div>
+
+                <div id="quiz-active">
+                    <div id="image-container">
+                        <img id="q-img" src="" alt=" "> </div>
+                    <h2 id="q-text">Pytanie...</h2>
+                    
+                    <div class="answers-grid">
+                        <button class="answer-btn" onclick="handleAnswer(0)">Opcja A</button>
+                        <button class="answer-btn" onclick="handleAnswer(1)">Opcja B</button>
+                        <button class="answer-btn" onclick="handleAnswer(2)">Opcja C</button>
+                        <button class="answer-btn" onclick="handleAnswer(3)">Opcja D</button>
+                    </div>
+                </div>
+
+                <div id="result-screen">
+                    <h2>Koniec Gry!</h2>
+                    <p class="score-text">Twój wynik: <span id="final-score">0</span>/10</p>
+                    <button class="reload-btn" onclick="location.reload()">Zagraj ponownie</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-section about">
+                <h2 class="footer-logo">100 TWARZY<span>GRZYBIARZY</span></h2>
+                <p>Lubie grzyby</p>
+            </div>
+
+            <div class="footer-section contact">
+                <h3>Kontakt</h3>
+                <p><i class="fas fa-envelope"></i> 100twarzygrzybiarzy@gmail.com</p>
+                
+                <div class="social-icons">
+                    <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=3571412768"><i class="fab fa-discord"></i></a>
+                    <a href="#"><i class="fab fa-steam"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 100 TWARZY GRZYBIARZY | CREATED BY SIGMY
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="SteamAPI.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>
