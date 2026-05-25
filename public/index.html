@@ -21,7 +21,7 @@
     <div class="topbar-center">
     <nav class="top-nav">
         <a href="#pierwszy-panel" class="nav-link"><i class="fas fa-home"></i> Główna</a>
-        <a href="#drugi-panel" class="nav-link"><i class="fas fa-chart-bar"></i> Statystyki</a>
+        <a href="tile2.html" class="nav-link"><i class="fas fa-chart-bar"></i> Statystyki</a>
         <a href="#trzeci-panel" class="nav-link"><i class="fas fa-search"></i> Wyszukiwarka</a>
         <a href="game.html" class="nav-link"><i class="fas fa-gamepad"></i> Zagraj w Quiz</a>
     </nav>
@@ -70,34 +70,6 @@
             </div>
         </div>
     </div>
-    <div class="drugi-panel" id="drugi-panel">
-        <div class="rightcol">
-            <div class="rightcol-content">
-                <button class="stat-button"></button>
-                <button class="stat-button"></button>
-                <button class="stat-button"></button>
-                <button class="stat-button"></button>
-                <button class="stat-button"></button>
-            </div>
-        </div>
-        <div class="leftcol">
-            <div class="leftcol-bar">
-                <button class="leftcol-btn active-sort" onclick="sortujGry('playtime', this)">Top Playtime</button>
-                <button class="leftcol-btn" onclick="sortujGry('name', this)">Alphabetical</button>
-                <button class="leftcol-btn" onclick="sortujGry('recent', this)">Recently Played</button>
-                <div style="position: relative; width: 25%;">
-                    <input type="text" id="searchInput" placeholder="Search..." oninput="filtrujGry()" 
-                        style="width: 100%; padding-left: 30px; border-radius: 20px; background: #101214;">
-                    <i class="fas fa-search" style="position: absolute; left: 10px; top: 12px; font-size: 12px; color: #444;"></i>
-                </div>
-            </div>
-            <div class="leftcol-content">
-            </div>
-        </div>
-    </div>
-
-
-
 
 <div class="trzeci-panel" id="trzeci-panel">
     <div class="sidebar">
