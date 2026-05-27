@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentIndex = 0;
   const totalSlides = slides.length;
   let autoplayInterval;
-  const autoplayDelay = 5000; // Czas wyświetlania slajdu (5 sekund)
+  const autoplayDelay = 30000; // Czas wyświetlania slajdu (5 sekund)
 
   // 1. Generowanie kropek paginacji
   slides.forEach((_, index) => {
