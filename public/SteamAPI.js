@@ -7,7 +7,6 @@ let wyswietloneGry = 0;
 let wybranyAppId = null; 
 const PORCJA_GIER = 10; 
 
-// 1. GŁÓWNA FUNKCJA LOGOWANIA (wywoływana przez onclick="wyciagnijSteamID()" w HTML)
 async function wyciagnijSteamID() {
     const inputElement = document.getElementById('steamInput');
     const wynikDiv = document.getElementById('wynik');
@@ -15,7 +14,6 @@ async function wyciagnijSteamID() {
     if (!inputElement) return;
     const link = inputElement.value.trim();
 
-    // Sprawdzenie czy użytkownik w ogóle coś wpisał
     if (!link) {
         if (wynikDiv) wynikDiv.innerHTML = "<p style='color: #ff4d4d;'>Proszę wprowadzić link do profilu Steam!</p>";
         return;
@@ -29,7 +27,6 @@ async function wyciagnijSteamID() {
         const lastPart = parts.pop();
         let steamId = "";
 
-        // Parsowanie linku Steam custom URL (/id/) lub bezpośredniego (/profiles/)
         if (cleanLink.includes('/id/')) {
             const resolveUrl = `https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/?key=${apiKey}&vanityurl=${lastPart}`;
             const response = await fetch(proxyUrl + encodeURIComponent(resolveUrl));
@@ -46,10 +43,7 @@ async function wyciagnijSteamID() {
             throw new Error("Nieprawidłowy format linku. Wklej pełny link do profilu Steam.");
         }
 
-        // Informacja o sukcesie i załadowanie profilu
         if (wynikDiv) wynikDiv.innerHTML = "<p style='color: #4df14d;'>Zalogowano pomyślnie!</p>";
-        
-        // Wywołanie funkcji wyświetlającej profil gracza
         await wyswietlProfil(steamId);
 
     } catch (error) {
@@ -58,7 +52,6 @@ async function wyciagnijSteamID() {
     }
 }
 
-// 2. FUNKCJA WYŚWIETLANIA PROFILU
 async function wyswietlProfil(steamId) {
     try {
         const summaryUrl = `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=${apiKey}&steamids=${steamId}`;
@@ -71,10 +64,8 @@ async function wyswietlProfil(steamId) {
             if (container) {
                 container.innerHTML = `<img src="${gracz.avatarfull}" class="steam-avatar-overlay" alt="Avatar">`;
             }
-            // Zapisujemy ID, aby sesja przetrwała odświeżenie strony
             localStorage.setItem('zapisaneSteamID', steamId);
             
-            // Pobieranie gier wykona się tylko jeśli na stronie istnieje element kolumny gier
             if (document.querySelector('.rightcol')) {
                 await pobierzIGrafikiGier(steamId);
             }
@@ -84,11 +75,9 @@ async function wyswietlProfil(steamId) {
     }
 }
 
-// 3. FUNKCJA WYLOGOWANIA (podpięta pod przycisk "Wyloguj" w HTML)
 function wyloguj() {
     localStorage.removeItem('zapisaneSteamID');
     
-    // Przywrócenie domyślnego pustego awatara w HTML
     const container = document.getElementById('userAvatarContainer');
     if (container) {
         container.innerHTML = `
@@ -97,7 +86,6 @@ function wyloguj() {
         `;
     }
     
-    // Reset komunikatów i formularza
     const wynikDiv = document.getElementById('wynik');
     if (wynikDiv) wynikDiv.innerHTML = "";
     
@@ -108,7 +96,6 @@ function wyloguj() {
     if (containerGier) containerGier.innerHTML = "";
 }
 
-// 4. FUNKCJE DOTYCZĄCE GIER I STATYSTYK (Pozostają bez zmian)
 async function pobierzIGrafikiGier(steamId) {
     try {
         const gamesUrl = `https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/?key=${apiKey}&steamid=${steamId}&include_appinfo=true&format=json`;
@@ -127,18 +114,15 @@ async function pobierzIGrafikiGier(steamId) {
     }
 }
 
-function filtrujGry() {
-    const searchInput = document.querySelector('.searchInput');
-    if (!searchInput) return;
-
-    const query = searchInput.value.toLowerCase();
+function filtrujGry(inputTarget) {
+    const query = inputTarget.value.toLowerCase().trim();
     przefiltrowaneGry = zapisanaListaGier.filter(gra => gra.name.toLowerCase().includes(query));
 
     wyswietloneGry = 0;
     const container = document.querySelector('.rightcol-content');
     if (container) {
         container.innerHTML = ""; 
-        ladujWiecejGier();
+        ladujWiecejGier(); 
     }
 }
 
@@ -218,6 +202,7 @@ if (rightCol) {
         }
     });
 }
+let aktualnaGraDane = {};
 
 async function Showstats(appId, titleName, playtime, clickedBtn) {
     wybranyAppId = appId;
@@ -227,46 +212,229 @@ async function Showstats(appId, titleName, playtime, clickedBtn) {
     document.querySelectorAll('.stat-button').forEach(btn => btn.classList.remove('active-title'));
     if (clickedBtn) clickedBtn.classList.add('active-title');
 
-    content.innerHTML = `<p style="color: #66c0f4;">Ładowanie statystyk dla ${titleName}...</p>`;
+    content.innerHTML = `<p style="color: #66c0f4; text-align:center; padding: 40px;">Ładowanie danych z bazy Steam...</p>`;
 
     try {
         const statsUrl = `https://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v1/?key=${apiKey}&steamid=${steamId}&appid=${appId}`;
-        const response = await fetch(proxyUrl + encodeURIComponent(statsUrl));
-        const data = await response.json();
+        const globalUrl = `https://api.steampowered.com/ISteamUserStats/GetGlobalAchievementPercentagesForApp/v2/?gameid=${appId}`;
+        const schemaUrl = `https://api.steampowered.com/ISteamUserStats/GetSchemaForGame/v2/?key=${apiKey}&appid=${appId}&l=polish`;
+        
+        const currentPlayersUrl = `https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v1/?appid=${appId}`;
+        const storeUrl = `https://store.steampowered.com/api/appdetails?appids=${appId}&l=polish`;
 
-        let statsHTML = `<h3 style="color: #66c0f4; border-bottom: 1px solid #444; padding-bottom: 10px;">${titleName}</h3>`;
-        statsHTML += `<p style="margin-top:10px;">Czas gry: <strong>${Math.round(playtime / 60)}h</strong></p>`;
+        const [resPlayer, resGlobal, resSchema, resPlayersCount, resStore] = await Promise.all([
+            fetch(proxyUrl + encodeURIComponent(statsUrl)).then(r => r.json()).catch(() => ({})),
+            fetch(proxyUrl + encodeURIComponent(globalUrl)).then(r => r.json()).catch(() => ({})),
+            fetch(proxyUrl + encodeURIComponent(schemaUrl)).then(r => r.json()).catch(() => ({})),
+            fetch(proxyUrl + encodeURIComponent(currentPlayersUrl)).then(r => r.json()).catch(() => ({})),
+            fetch(proxyUrl + encodeURIComponent(storeUrl)).then(r => r.json()).catch(() => ({}))
+        ]);
 
-        if (data.playerstats && data.playerstats.success && Array.isArray(data.playerstats.achievements)) {
-            const achievements = data.playerstats.achievements;
-            const unlocked = achievements.filter(a => Number(a.achieved) === 1).length;
-            const total = achievements.length;
-            const percent = total > 0 ? Math.round((unlocked / total) * 100) : 0;
+        const gameHeaderImg = `https://cdn.akamai.steamstatic.com/steam/apps/${appId}/header.jpg`;
+        const graczeOnline = resPlayersCount?.response?.player_count || "Brak danych";
+        
+        const sklepDane = resStore?.[appId]?.success ? resStore[appId].data : null;
+        const deweloper = sklepDane?.developers ? sklepDane.developers.join(', ') : 'Nieznany';
+        const wydawca = sklepDane?.publishers ? sklepDane.publishers.join(', ') : 'Nieznany';
+        const gatunki = sklepDane?.genres ? sklepDane.genres.map(g => g.description).join(', ') : 'Brak danych';
+        const dataPremiery = sklepDane?.release_date?.date || 'Brak danych';
 
-            statsHTML += `
-                <div class="stat-row" style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; margin-top: 15px; color: white;">
-                    <p>Osiągnięcia: <strong>${unlocked} / ${total}</strong> (${percent}%)</p>
-                    <div style="background: #444; width: 100%; height: 10px; border-radius: 5px; overflow: hidden; margin-top: 10px;">
-                        <div style="background: #66c0f4; width: ${percent}%; height: 100%; transition: width 0.5s ease;"></div>
-                    </div>
+        aktualnaGraDane = {
+            titleName,
+            playtime,
+            graczeOnline,
+            deweloper,
+            wydawca,
+            gatunki,
+            dataPremiery,
+            resPlayer,
+            resGlobal,
+            resSchema
+        };
+
+        content.innerHTML = `
+            <div class="steam-column-blur-background">
+                <img src="${gameHeaderImg}" class="steam-blur-image-layer" alt="">
+            </div>
+
+            <div class="steam-hero-wrapper">
+                <div class="steam-hero-banner-container">
+                    <img src="${gameHeaderImg}" class="steam-hero-banner-clean" alt="">
                 </div>
-            `;
-        } else {
-            statsHTML += `<p style="color: #888; margin-top: 15px;"><i>Brak danych o osiągnięciach dla tego tytułu.</i></p>`;
-        }
-        content.innerHTML = statsHTML;
+            </div>
+
+            <div class="steam-game-header-container">
+                <h3 class="steam-game-blue-title">${titleName}</h3>
+            </div>
+            
+            <div class="steamdb-tabs-container">
+                <button class="steamdb-tab-btn active" onclick="przelaczKarte('personal')">
+                    <i class="fas fa-user"></i> Twoje statystyki
+                </button>
+                <button class="steamdb-tab-btn" onclick="przelaczKarte('global')">
+                    <i class="fas fa-chart-line"></i> Statystyki gry (SteamDB)
+                </button>
+            </div>
+
+            <div id="steamdb-tab-content-target"></div>
+        `;
+
+        renderujKartePersonalna();
+
     } catch (e) {
-        content.innerHTML = `<p style="color: #ff4d4d;">Błąd ładowania statystyk.</p>`;
+        console.error("Błąd ładowania danych gry:", e);
+        content.innerHTML = `<p style="color: #ff4d4d; text-align:center; padding:20px;">Błąd komunikacji z API Steam.</p>`;
     }
 }
 
-// 5. BEZPIECZNE AUTOMATYCZNE LOGOWANIE PO ODŚWIEŻENIU
-// Zmieniono window.onload na addEventListener, aby nie nadpisywać innych skryptów (np. script.js)
+function przelaczKarte(typ) {
+    document.querySelectorAll('.steamdb-tab-btn').forEach(btn => btn.classList.remove('active'));
+    
+    if (typ === 'personal') {
+        event.currentTarget.classList.add('active');
+        renderujKartePersonalna();
+    } else {
+        event.currentTarget.classList.add('active');
+        renderujKarteGlobalna();
+    }
+}
+
+function renderujKartePersonalna() {
+    const target = document.getElementById('steamdb-tab-content-target');
+    if (!target) return;
+
+    let html = `
+        <div class="steam-playtime-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:middle; margin-right:4px;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            <span>Czas gry: <strong>${Math.round(aktualnaGraDane.playtime / 60)}h</strong></span>
+        </div>
+    `;
+
+    const resPlayer = aktualnaGraDane.resPlayer;
+    if (resPlayer?.playerstats?.success && Array.isArray(resPlayer.playerstats.achievements)) {
+        const achievements = resPlayer.playerstats.achievements;
+        const unlocked = achievements.filter(a => Number(a.achieved) === 1);
+        const total = achievements.length;
+        const percent = total > 0 ? Math.round((unlocked.length / total) * 100) : 0;
+
+        html += `
+            <div class="steam-progress-container">
+                <p>Osiągnięcia: <strong>${unlocked.length} / ${total}</strong> (${percent}%)</p>
+                <div class="steam-progress-bar-bg">
+                    <div class="steam-progress-bar-fill" style="width: ${percent}%;"></div>
+                </div>
+            </div>
+        `;
+
+        const globalChievis = aktualnaGraDane.resGlobal?.achievementpercentages?.achievements;
+        const schemaChievis = aktualnaGraDane.resSchema?.game?.availableGameStats?.achievements;
+
+        if (unlocked.length > 0 && Array.isArray(globalChievis) && globalChievis.length > 0) {
+            const rzadkieOsiagniecia = unlocked.map(pChieve => {
+                const globalMatch = globalChievis.find(gChieve => gChieve.name === pChieve.apiname);
+                const schemaMatch = Array.isArray(schemaChievis) ? schemaChievis.find(sChieve => sChieve.name === pChieve.apiname) : null;
+                let rawPercent = 100;
+                if (globalMatch && globalMatch.percent !== undefined) rawPercent = Number(globalMatch.percent);
+
+                return {
+                    displayName: schemaMatch?.displayName || pChieve.apiname,
+                    description: schemaMatch?.description || "Osiągnięcie ukryte.",
+                    iconUrl: schemaMatch?.icon || "",
+                    percent: isNaN(rawPercent) ? 100 : rawPercent
+                };
+            });
+
+            rzadkieOsiagniecia.sort((a, b) => a.percent - b.percent);
+            const topRarest = rzadkieOsiagniecia.slice(0, 3);
+
+            html += `
+                <div class="rarest-achievements">
+                    <h4><i class="fas fa-trophy" style="margin-right: 8px;"></i> Twoje najrzadsze osiągnięcia:</h4>
+                    <ul>
+            `;
+
+            topRarest.forEach(ach => {
+                html += `
+                    <li class="achievement-item">
+                        ${ach.iconUrl ? `<img src="${ach.iconUrl}" class="achievement-icon" alt="">` : ''}
+                        <div class="achievement-text-block">
+                            <div class="achievement-title">${ach.displayName}</div>
+                            <div class="achievement-desc">${ach.description}</div>
+                        </div>
+                        <span class="achievement-badge">${ach.percent.toFixed(1)}% graczy</span>
+                    </li>
+                `;
+            });
+            html += `</ul></div>`;
+        }
+    } else {
+        html += `<p style="color: #888; padding: 20px; text-align: center; font-style: italic;">Brak danych o osiągnięciach profilu.</p>`;
+    }
+
+    target.innerHTML = html;
+}
+
+function renderujKarteGlobalna() {
+    const target = document.getElementById('steamdb-tab-content-target');
+    if (!target) return;
+
+    const sformatowaniGracze = typeof aktualnaGraDane.graczeOnline === 'number' 
+        ? aktualnaGraDane.graczeOnline.toLocaleString() 
+        : aktualnaGraDane.graczeOnline;
+
+    target.innerHTML = `
+        <div class="steamdb-stats-grid">
+            
+            <div class="steamdb-card-live">
+                <div class="live-pulse-dot"></div>
+                <div class="live-info">
+                    <span class="live-label">Gracze online (Live)</span>
+                    <span class="live-value">${sformatowaniGracze}</span>
+                </div>
+            </div>
+
+            <div class="steamdb-info-table-container">
+                <h4><i class="fas fa-database"></i> Informacje o aplikacji</h4>
+                <table class="steamdb-info-table">
+                    <tr>
+                        <td>Deweloper</td>
+                        <td><strong>${aktualnaGraDane.deweloper}</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Wydawca</td>
+                        <td><strong>${aktualnaGraDane.wydawca}</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Gatunki</td>
+                        <td class="genres-tags">${aktualnaGraDane.gatunki}</td>
+                    </tr>
+                    <tr>
+                        <td>Premiera</td>
+                        <td>${aktualnaGraDane.dataPremiery}</td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+    `;
+}
 window.addEventListener('load', () => {
     const zapamietaneID = localStorage.getItem('zapisaneSteamID');
     if (zapamietaneID) {
         setTimeout(() => {
             wyswietlProfil(zapamietaneID);
         }, 50);
+    }
+});
+
+document.addEventListener('input', function (e) {
+    if (!e.target) return;
+    
+    const maKlase = e.target.classList.contains('searchInput');
+    const maPlaceholder = e.target.placeholder && e.target.placeholder.toLowerCase().includes('search');
+    const maTypSearch = e.target.type === 'search';
+
+    if (maKlase || maPlaceholder || maTypSearch) {
+        filtrujGry(e.target);
     }
 });
