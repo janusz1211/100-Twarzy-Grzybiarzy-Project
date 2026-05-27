@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="dstyle.css">
     <link rel="stylesheet" href="tile2.css">
     <link rel="stylesheet" href="game.css"> 
+    <link rel="stylesheet" href="slider.css">
+    <link rel="stylesheet" href="slider-css.css">
     <link rel="stylesheet" href="emebeded-content.css">
     <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -57,17 +59,52 @@
 </div>
 
     <div class="pierwszy-panel" id="pierwszy-panel">
-        <div class="gallery js-flickity" data-flickity-options='{ "wrapAround": true }'>
-            <div class="gallery-cell"><img src="/pliki/zdjęcia/hi.gif" alt="hi"></div>
-            <div class="gallery-cell" id="yt-live-cell">
-                <div class="yt-loading">Ładowanie najpopularniejszego streama YT...</div>
+        <div class="xbox-slider" id="mainSlider">
+            <div class="slides-container">
+
+                <div class="slide active" style="background-image: url('https://via.placeholder.com/1920x1080/107C10/ffffff?text=Xbox+Game+Pass');">
+                    <div class="slide-content">
+                        <img src="/pliki/zdjęcia/hi.gif" alt="hi">
+                    </div>
+                </div>
+
+                <div class="slide" style="background-image: url('https://via.placeholder.com/1920x1080/000000/ffffff?text=Xbox+Series+X');">
+                    <div class="slide-content">
+                        
+                    </div>
+                </div>
+
+                <div class="slide" style="background-image: url('https://via.placeholder.com/1920x1080/111111/9bf00b?text=Kick+Stream');">
+                    <div class="slide-content full">
+                        <h2>Kick Live</h2>
+                        <p>Najpopularniejszy stream Kick. Oglądaj bezpośrednio w sliderze.</p>
+                        <div id="kick-cell" class="stream-cell"></div>
+                    </div>
+                </div>
+
+                <div class="slide" style="background-image: url('https://via.placeholder.com/1920x1080/1a1a1a/9146ff?text=Twitch+Stream');">
+                    <div class="slide-content full">
+                        <h2>Twitch Live</h2>
+                        <p>Najlepszy Twitch stream na żywo. Jeżeli działa na localhost, zobaczysz embed.</p>
+                        <div id="twitch-cell" class="stream-cell"></div>
+                    </div>
+                </div>
+
+                <div class="slide" style="background-image: url('https://via.placeholder.com/1920x1080/111111/ff0000?text=YouTube+Live');">
+                    <div class="slide-content full">
+                        <h2>YouTube Live</h2>
+                        <p>Najbardziej popularne transmisje na żywo z YouTube. Szukaj gier i oglądaj w modalu.</p>
+                        <div id="yt-live-cell" class="stream-cell"></div>
+                    </div>
+                </div>
             </div>
-            <div class="gallery-cell" id="kick-cell">
-                <div class="kick-loading">Ładowanie najpopularniejszego streama z Kicka...</div>
-            </div>
-            <div class="gallery-cell" id="twitch-cell">
-                <div class="twitch-loading">Ładowanie najpopularniejszego streama z Twitcha...</div>
-            </div>
+
+            <!-- Nawigacja (Strzałki) -->
+            <button class="slider-btn prev-btn" aria-label="Poprzedni slajd">&#10094;</button>
+            <button class="slider-btn next-btn" aria-label="Następny slajd">&#10095;</button>
+
+            <!-- Paginacja (Kropki) -->
+            <div class="pagination"></div>
         </div>
     </div>
 
@@ -166,5 +203,6 @@
     <script src="game.js"></script>
     <script src="dscript.js"></script>
     <script src="twitchapi.js"></script>
+    <script src="slider.js"></script>
 </body>
 </html>
