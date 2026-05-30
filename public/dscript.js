@@ -137,13 +137,22 @@ async function fetchGamingLive(specificGame = null) {
             const thumbnail = video.snippet.thumbnails.high.url;
             const badgeText = specificGame ? `Na żywo: ${specificGame}` : "Gry na żywo (PL)";
 
-            ytCell.innerHTML = `
-                <div class="live-container" onclick="openModal('${videoId}')" style="position: relative; width: 100%; height: 100%; cursor: pointer;">
-                    <span class="live-badge" style="position: absolute; top: 15px; left: 15px; background: #e74c3c; color: white; padding: 5px 10px; border-radius: 4px; font-weight: bold; z-index: 10;">${badgeText}</span>
-                    <img src="${thumbnail}" alt="${title}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;">
-                    <div class="live-title-overlay" style="position: absolute; bottom: 0; width: 100%; background: rgba(0,0,0,0.7); color: white; padding: 15px; box-sizing: border-box; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; font-size: 14px;">${title}</div>
+            // Zamiast miniaturki, osadzamy odtwarzacz gotowy do oglądania wewnątrz panelu
+        ytCell.innerHTML = `
+            <div class="youtube-embed-wrapper" style="width: 100%; height: 100%; position: relative;">
+                <div style="position: absolute; top: 0; left: 0; width: 100%; padding: 15px; background: linear-gradient(rgba(0,0,0,0.8), transparent); z-index: 50; color: white;">
+                    <span style="background: #e74c3c; padding: 2px 8px; font-weight: bold; font-size: 12px;">${badgeText}</span>
+                    <h3 style="margin: 5px 0 0 0; font-size: 14px;">${title}</h3>
                 </div>
-            `;
+                
+                <iframe 
+                    src="https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1" 
+                    style="width: 100%; height: 100%; border: none;" 
+                    allow="autoplay; encrypted-media" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+        `;
         } else {
             const message = specificGame ? `Brak streamów z ${specificGame}` : "Nie znaleziono transmisji";
             ytCell.innerHTML = `<div class="yt-loading">${message}</div>`;
