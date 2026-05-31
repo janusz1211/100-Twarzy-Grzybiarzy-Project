@@ -62,42 +62,38 @@
         <div class="xbox-slider" id="mainSlider">
             <div class="slides-container">
 
-                <div class="slide active" style="background-image: url('https://via.placeholder.com/1920x1080/107C10/ffffff?text=Xbox+Game+Pass');">
-                    <div class="slide-content">
-                        <img src="/pliki/zdjęcia/hi.gif" alt="hi">
-                    </div>
+                <div class="slide streams-master-slide active">
+    <div class="streams-accordion">
+        
+        <div class="stream-panel twitch-panel">
+            <div class="panel-content-wrapper">
+                <div class="panel-header">
+                    <h2>Twitch</h2>
                 </div>
-
-                <div class="slide" style="background-image: url('https://via.placeholder.com/1920x1080/000000/ffffff?text=Xbox+Series+X');">
-                    <div class="slide-content">
-                        
-                    </div>
-                </div>
-
-                <div class="slide" style="background-image: url('https://via.placeholder.com/1920x1080/111111/9bf00b?text=Kick+Stream');">
-                    <div class="slide-content full">
-                        <h2>Kick Live</h2>
-                        <p>Najpopularniejszy stream Kick. Oglądaj bezpośrednio w sliderze.</p>
-                        <div id="kick-cell" class="stream-cell"></div>
-                    </div>
-                </div>
-
-                <div class="slide" style="background-image: url('https://via.placeholder.com/1920x1080/1a1a1a/9146ff?text=Twitch+Stream');">
-                    <div class="slide-content full">
-                        <h2>Twitch Live</h2>
-                        <p>Najlepszy Twitch stream na żywo. Jeżeli działa na localhost, zobaczysz embed.</p>
-                        <div id="twitch-cell" class="stream-cell"></div>
-                    </div>
-                </div>
-
-                <div class="slide" style="background-image: url('https://via.placeholder.com/1920x1080/111111/ff0000?text=YouTube+Live');">
-                    <div class="slide-content full">
-                        <h2>YouTube Live</h2>
-                        <p>Najbardziej popularne transmisje na żywo z YouTube. Szukaj gier i oglądaj w modalu.</p>
-                        <div id="yt-live-cell" class="stream-cell"></div>
-                    </div>
-                </div>
+                <div class="stream-content" id="twitch-cell"></div>
             </div>
+        </div>
+
+        <div class="stream-panel youtube-panel">
+            <div class="panel-content-wrapper">
+                <div class="panel-header">
+                    <h2>YouTube</h2>
+                </div>
+                <div class="stream-content" id="yt-live-cell"></div>
+            </div>
+        </div>
+
+        <div class="stream-panel kick-panel">
+            <div class="panel-content-wrapper">
+                <div class="panel-header">
+                    <h2>Kick</h2>
+                </div>
+                <div class="stream-content" id="kick-cell"></div>
+            </div>
+        </div>
+
+    </div>
+</div>
 
             <!-- Nawigacja (Strzałki) -->
             <button class="slider-btn prev-btn" aria-label="Poprzedni slajd">&#10094;</button>
