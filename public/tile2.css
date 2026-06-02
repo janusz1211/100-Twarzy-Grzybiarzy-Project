@@ -19,7 +19,7 @@ html, body {
 }
 
 .drugi-panel {
-    height: 101vh; 
+    height: 103vh; 
     width: 100%;
     display: flex;
     flex-direction: row-reverse; 
@@ -39,6 +39,7 @@ html, body {
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    height: auto;
     box-shadow: 0 15px 35px rgba(0,0,0,0.4);
 }
 
@@ -64,6 +65,7 @@ html, body {
     padding: 30px;
     overflow-y: auto;
     flex-grow: 1;
+    height: auto;
 }
 .leftcol button {
     background: rgba(35, 39, 48, 0.6);

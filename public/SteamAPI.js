@@ -424,6 +424,19 @@ window.addEventListener('load', () => {
         setTimeout(() => {
             wyswietlProfil(zapamietaneID);
         }, 50);
+    } else {
+        // ZMIANA TUTAJ: Celujemy w główny lewy panel, a nie w mały div 'wynik'
+        const lewyPanel = document.querySelector('.leftcol-content');
+        if (lewyPanel) {
+            lewyPanel.innerHTML = `
+                <div style="text-align: center; padding: 40px; width: 100%;">
+                    <p style="color: #888; font-size: 18px; font-family: 'Motiva Sans', Arial, sans-serif;">
+                        <i class="fas fa-lock" style="margin-bottom: 10px; font-size: 24px;"></i><br>
+                        Zaloguj się, aby zobaczyć swoje statystyki!
+                    </p>
+                </div>
+            `;
+        }
     }
 });
 

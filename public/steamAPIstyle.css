@@ -9,8 +9,12 @@
     width: 100%;
     max-width: 100%;
     background-color: #10141d;
-    min-height: 100%;
     z-index: 1;
+
+    /* ZMIANY TUTAJ: */
+    height: auto;          /* Pozwala panelowi rosnąć w nieskończoność wraz z zawartością */
+    min-height: 50vh;     /* Opcjonalnie: sprawia, że panel ma minimum wysokość ekranu, nawet gdy gier jest mało */
+    /* overflow-y: auto; <-- To całkowicie USUŃ lub zakomentuj */
 }
 
 .steam-column-blur-background {
