@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="tile2.css">
+    <link rel="stylesheet" href="theme.css">
+    <link rel="stylesheet" href="emebeded-content.css">
+    <link rel="stylesheet" href="steamAPIstyle.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+</head>
+<body>
+                <div class="mobile-search-container">
+            <input type="text" class="searchInput" oninput="filtrujGry()" placeholder="Szukaj gry...">
+        </div>
+<div id="gora-pasek">
+        <div class="topbar-left">
+            <div class="znaczek-logo" id="main-logo" onclick="location.href='index.html'">L</div>
+        </div>
+
+        <div class="topbar-center">
+            <nav class="top-nav">
+                <a href="index.html" class="nav-link"><i class="fas fa-arrow-left"></i> Powrót do Huba</a>
+            </nav>
+        </div>
+
+        <div class="topbar-right">
+            <div class="avatar-dropdown-container">
+                <div id="userAvatarContainer" class="kolko-awatar" onclick="toggleAvatarMenu()">
+                    <div class="glowa"></div>
+                    <div class="ramiona"></div>
+                </div>
+                
+                <div id="avatar-menu" class="avatar-dropdown">
+                    <div class="dropdown-header">
+                        <span>Witaj, Grzybiarzu!</span>
+                    </div>
+                    <hr class="dropdown-divider">
+                    <a href="Steamlogin.html" class="dropdown-item">
+                        <i class="fab fa-steam"></i> Zaloguj przez Steam
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+<div class="drugi-panel" id="drugi-panel">
+    <div class="rightcol">
+        <div class="rightcol-content">
+            <button class="stat-button"></button>
+            <button class="stat-button"></button>
+            <button class="stat-button"></button>
+            <button class="stat-button"></button>
+            <button class="stat-button"></button>
+            <button class="stat-button"></button>
+            <button class="stat-button"></button>
+            <button class="stat-button"></button>
+            <button class="stat-button"></button>
+            </div>
+        </div>
+        <div class="leftcol">
+            <div class="leftcol-bar">
+                <button class="leftcol-btn active-sort" onclick="sortujGry('playtime', this)">Top Playtime</button>
+                <button class="leftcol-btn" onclick="sortujGry('name', this)">Alphabetical</button>
+                <button class="leftcol-btn" onclick="sortujGry('recent', this)">Recently Played</button>
+                <div style="position: relative; width: 25%;">
+                    <input type="text" class="searchInput" placeholder="Search..." oninput="filtrujGry()">
+                    <i class="fas-fa-search" ></i>
+            </div>
+        </div>
+        <div class="leftcol-content">
+        </div>
+    </div>
+</div>
+
+<footer class="main-footer">
+    <div class="footer-content">
+        <div class="footer-section about">
+            <h2 class="footer-logo">100 TWARZY<span>GRZYBIARZY</span></h2>
+            <p>Lubie grzyby</p>
+        </div>
+
+        <div class="footer-section contact">
+            <h3>Kontakt</h3>
+            <p><i class="fas fa-envelope"></i> 100twarzygrzybiarzy@gmail.com</p>
+            
+            <div class="social-icons">
+                <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=3571412768"><i class="fab fa-discord"></i></a>
+                <a href="#"><i class="fab fa-steam"></i></a>
+                <a href="#"><i class="fab fa-github"></i></a>
+            </div>
+        </div>
+
+        <div class="footer-section accessibility">
+            <h3>Ustawienia strony</h3>
+            <button class="a11y-footer-btn" onclick="toggleA11yPanel()" aria-label="Otwórz panel ułatwień dostępu">
+                <i class="fas fa-universal-access"></i> Ułatwienia dostępu
+            </button>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        &copy; 2026 100 TWARZY GRZYBIARZY | CREATED BY SIGMY
+    </div>
+</footer>
+
+<div id="a11y-panel" class="a11y-side-panel">
+    <div class="a11y-header">
+        <h3>Ułatwienia dostępu</h3>
+        <span class="close-a11y" onclick="toggleA11yPanel()">&times;</span>
+    </div>
+    
+<div class="a11y-option">
+    <span class="a11y-label-text">jasny motyw</span>
+    <label class="switch">
+        <input type="checkbox" id="theme-toggle">
+        <span class="slider round"></span>
+    </label>
+</div>
+        
+        <div class="a11y-option">
+            <span class="a11y-label-text">Wysoki kontrast (Tekst)</span>
+            <label class="switch">
+                <input type="checkbox">
+                <span class="slider round"></span>
+            </label>
+        </div>
+        
+        <div class="a11y-option">
+            <span class="a11y-label-text">Większa czcionka (+20%)</span>
+            <label class="switch">
+                <input type="checkbox">
+                <span class="slider round"></span>
+            </label>
+        </div>
+    </div>
+</div>
+
+<script src="SteamAPI.js"></script>
+<script src="script.js"></script>
+<script src="game.js"></script>
+<script src="theme.js"></script>
+
+</body>
+
+</html>
