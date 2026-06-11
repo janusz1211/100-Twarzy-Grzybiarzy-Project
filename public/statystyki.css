@@ -173,7 +173,6 @@ html, body {
     overflow: hidden;
     text-overflow: ellipsis;
 }
-
 .stats-title {
     color: #66c0f4;
     border-bottom: 1px solid #444;
