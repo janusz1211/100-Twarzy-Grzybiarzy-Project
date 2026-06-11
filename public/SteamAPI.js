@@ -45,6 +45,7 @@ async function wyciagnijSteamID() {
 
         if (wynikDiv) wynikDiv.innerHTML = "<p style='color: #4df14d;'>Zalogowano pomyślnie!</p>";
         await wyswietlProfil(steamId);
+        location.reload();
 
     } catch (error) {
         console.error("Błąd logowania:", error);
@@ -94,6 +95,7 @@ function wyloguj() {
     
     const containerGier = document.querySelector('.rightcol-content');
     if (containerGier) containerGier.innerHTML = "";
+    location.reload();
 }
 
 async function pobierzIGrafikiGier(steamId) {
@@ -272,7 +274,7 @@ async function Showstats(appId, titleName, playtime, clickedBtn) {
                     <i class="fas fa-user"></i> Twoje statystyki
                 </button>
                 <button class="steamdb-tab-btn" onclick="przelaczKarte('global')">
-                    <i class="fas fa-chart-line"></i> Statystyki gry (SteamDB)
+                    <i class="fas fa-chart-line"></i> Informacje o grze
                 </button>
             </div>
 
@@ -425,7 +427,6 @@ window.addEventListener('load', () => {
             wyswietlProfil(zapamietaneID);
         }, 50);
     } else {
-        // ZMIANA TUTAJ: Celujemy w główny lewy panel, a nie w mały div 'wynik'
         const lewyPanel = document.querySelector('.leftcol-content');
         if (lewyPanel) {
             lewyPanel.innerHTML = `
