@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>100 twarzy grzybiarzy</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="theme.css">
-    <link rel="stylesheet" href="dstyle.css">
-    <link rel="stylesheet" href="tile2.css">
+    <link rel="stylesheet" href="Youtube.css">
+    <link rel="stylesheet" href="statystyki.css">
     <link rel="stylesheet" href="game.css"> 
+    <link rel="stylesheet" href="slider.css">
+    <link rel="stylesheet" href="slider-button.css">
     <link rel="stylesheet" href="emebeded-content.css">
-    <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
@@ -22,8 +22,8 @@
     <div class="topbar-center">
     <nav class="top-nav">
         <a href="#pierwszy-panel" class="nav-link"><i class="fas fa-home"></i> Główna</a>
-        <a href="tile2.html" class="nav-link"><i class="fas fa-chart-bar"></i> Statystyki</a>
-        <a href="#trzeci-panel" class="nav-link"><i class="fas fa-search"></i> Wyszukiwarka</a>
+        <a href="statystyki.html" class="nav-link"><i class="fas fa-chart-bar"></i> Statystyki</a>
+        <a href="YtSearch.html" class="nav-link"><i class="fas fa-search"></i> Wyszukiwarka</a>
         <a href="game.html" class="nav-link"><i class="fas fa-gamepad"></i> Zagraj w Quiz</a>
     </nav>
 </div>
@@ -58,37 +58,57 @@
 </div>
 
     <div class="pierwszy-panel" id="pierwszy-panel">
-        <div class="gallery js-flickity" data-flickity-options='{ "wrapAround": true }'>
-            <div class="gallery-cell"><img src="/pliki/zdjęcia/hi.gif" alt="hi"></div>
-            <div class="gallery-cell" id="yt-live-cell">
-                <div class="yt-loading">Ładowanie najpopularniejszego streama YT...</div>
+        <div class="xbox-slider" id="mainSlider">
+            <div class="slides-container">
+
+<div class="slide streams-master-slide active">
+    <div class="streams-accordion">
+        
+        <div class="stream-panel twitch-panel">
+            <div class="panel-content-wrapper">
+                <button class="close-panel-btn" aria-label="Zwiń panel"><i class="fas fa-times"></i></button>
+                <div class="panel-header">
+                    <h2>Twitch</h2>
+                    <p>Kliknij, aby obejrzeć</p>
+                </div>
+                <div class="stream-content" id="twitch-cell"></div>
             </div>
-            <div class="gallery-cell" id="kick-cell">
-                <div class="kick-loading">Ładowanie najpopularniejszego streama z Kicka...</div>
+        </div>
+
+        <div class="stream-panel youtube-panel">
+            <div class="panel-content-wrapper">
+                <button class="close-panel-btn" aria-label="Zwiń panel"><i class="fas fa-times"></i></button>
+                <div class="panel-header">
+                    <h2>YouTube</h2>
+                    <p>Kliknij, aby obejrzeć</p>
+                </div>
+                <div class="stream-content" id="yt-live-cell"></div>
             </div>
-            <div class="gallery-cell" id="twitch-cell">
-                <div class="twitch-loading">Ładowanie najpopularniejszego streama z Twitcha...</div>
+        </div>
+
+        <div class="stream-panel kick-panel">
+            <div class="panel-content-wrapper">
+                <button class="close-panel-btn" aria-label="Zwiń panel"><i class="fas fa-times"></i></button>
+                <div class="panel-header">
+                    <h2>Kick</h2>
+                    <p>Kliknij, aby obejrzeć</p>
+                </div>
+                <div class="stream-content" id="kick-cell"></div>
             </div>
+        </div>
+
+    </div>
+</div>
+
+            <!-- Nawigacja (Strzałki) -->
+            <button class="slider-btn prev-btn" aria-label="Poprzedni slajd">&#10094;</button>
+            <button class="slider-btn next-btn" aria-label="Następny slajd">&#10095;</button>
+
+            <!-- Paginacja (Kropki) -->
+            <div class="pagination"></div>
         </div>
     </div>
 
-<div class="trzeci-panel" id="trzeci-panel">
-    <div class="sidebar">
-        <input type="text" id="youtube-query" placeholder="Wyszukaj..">
-        <button id="search-btn">Szukaj</button>
-    </div>
-    <div id="video-results"></div>
-    <div id="pagination-container" style="margin-top: 20px; display: none;">
-        <button id="load-more-btn">Załaduj więcej</button>
-    </div>
-</div>
-
-<div id="video-modal" class="modal">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeModal()">&times;</span>
-        <iframe id="youtube-player" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-    </div>
-</div>
 <footer class="main-footer">
     <div class="footer-content">
         <div class="footer-section about">
@@ -160,12 +180,12 @@
     <img src="/pliki/zdjęcia/jumpscare.png" class="fullscreen-photo" alt="Niespodzianka">
 </div>
 
-    <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
-    <script src="script.js"></script>
+    <script src="game.js"></script>
     <script src="SteamAPI.js"></script>
     <script src="game.js"></script>
-    <script src="dscript.js"></script>
-    <script src="twitchapi.js"></script>
+    <script src="Youtube.js"></script>
+    <script src="Twitch.js"></script>
     <script src="theme.js"></script>
+    <script src="slider.js"></script>
 </body>
 </html>

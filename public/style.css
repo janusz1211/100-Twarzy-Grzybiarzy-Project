@@ -1,3 +1,102 @@
+/*NEW*/
+/* Kontener główny - szerszy niż ekran, by ukryć ucięte rogi po bokach */
+.streams-accordion {
+    display: flex;
+    width: 110vw; 
+    margin-left: -5vw; /* Centrujemy powiększony kontener */
+    height: 100vh;
+    background-color: #0b0e0f;
+    overflow: hidden;
+}
+
+/* Pojedynczy panel - pochylony pod kątem */
+.stream-panel {
+    flex: 1;
+    position: relative;
+    transform: skewX(-15deg); /* Pochylenie kontenera o 15 stopni w lewo */
+    border-right: 4px solid #171A21;
+    transition: flex 0.5s ease, transform 0.5s ease;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.stream-panel:last-child {
+    border-right: none;
+}
+
+/* Kolory tła */
+.twitch-panel { background-image: url(/pliki/zdjęcia/glitch_flat_purple.png); background-size: 30%; background-repeat: repeat;  }
+.youtube-panel { background-image: url(/pliki/zdjęcia/yt_logo_fullcolor_almostblack_digital.png); background-size: 50%; background-repeat: repeat; background-color: #ffffff; }
+.kick-panel { background-image: url(/pliki/zdjęcia/kick-pattern.png); background-size: cover; background-position: center; }
+
+/* Wewnętrzny wrapper - odkręca zawartość z powrotem do pionu */
+.panel-content-wrapper {
+    transform: skewX(15deg); /* Kontruje pochylenie rodzica */
+    width: 100vw; /* Zapas szerokości dla bezpiecznego wyświetlania */
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    left: 50%;
+    margin-left: -50vw; /* Utrzymuje zawartość idealnie na środku */
+    transition: transform 0.5s ease;
+}
+
+/* --- EFEKTY HOVER --- */
+.streams-accordion:hover .stream-panel {
+    flex: 0.5;
+}
+.streams-accordion .stream-panel:hover {
+    flex: 2;
+}
+
+/* --- EFEKT PO KLIKNIĘCIU (Stan Aktywny) --- */
+.stream-panel.is-active {
+    flex: 10 !important;
+    transform: skewX(0deg); /* PROSTUJEMY PANEL DO PROSTOKĄTA */
+    border-right: none;
+    z-index: 10;
+    cursor: default;
+}
+
+.stream-panel.is-hidden {
+    flex: 0 !important; /* Pozostałe panele znikają */
+    border: none;
+}
+
+/* Odkręcamy wrapper w aktywnym panelu, bo rodzic nie jest już pochylony */
+.stream-panel.is-active .panel-content-wrapper {
+    transform: skewX(0deg); 
+    width: 100vw;
+}
+
+/* Ukrycie nagłówków po kliknięciu */
+.stream-panel.is-active .panel-header {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Pokazanie odtwarzacza */
+.stream-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease 0.4s; /* Odtwarzacz pojawia się, gdy panel się wyprostuje */
+}
+
+.stream-panel.is-active .stream-content {
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* ------------------------------------------- */
+
+
 * {
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
