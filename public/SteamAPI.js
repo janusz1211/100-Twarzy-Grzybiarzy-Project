@@ -15,11 +15,11 @@ async function wyciagnijSteamID() {
     const link = inputElement.value.trim();
 
     if (!link) {
-        if (wynikDiv) wynikDiv.innerHTML = "<p style='color: #ff4d4d;'>Proszę wprowadzić link do profilu Steam!</p>";
+        if (wynikDiv) wynikDiv.innerHTML = "<p class='msg-error'>Proszę wprowadzić link do profilu Steam!</p>";
         return;
     }
 
-    if (wynikDiv) wynikDiv.innerHTML = "<p style='color: #66c0f4;'>Trwa sprawdzanie profilu...</p>";
+    if (wynikDiv) wynikDiv.innerHTML = "<p class='msg-info'>Trwa sprawdzanie profilu...</p>";
 
     try {
         const cleanLink = link.replace(/\/$/, "");
@@ -43,13 +43,13 @@ async function wyciagnijSteamID() {
             throw new Error("Nieprawidłowy format linku. Wklej pełny link do profilu Steam.");
         }
 
-        if (wynikDiv) wynikDiv.innerHTML = "<p style='color: #4df14d;'>Zalogowano pomyślnie!</p>";
+        if (wynikDiv) wynikDiv.innerHTML = "<p class='msg-success'>Zalogowano pomyślnie!</p>";
         await wyswietlProfil(steamId);
         location.reload();
 
     } catch (error) {
         console.error("Błąd logowania:", error);
-        if (wynikDiv) wynikDiv.innerHTML = `<p style='color: #ff4d4d;'>${error.message}</p>`;
+        if (wynikDiv) wynikDiv.innerHTML = `<p class='msg-error'>${error.message}</p>`;
     }
 }
 
@@ -161,7 +161,7 @@ function ladujWiecejGier() {
     const kolejnaPorcja = przefiltrowaneGry.slice(wyswietloneGry, wyswietloneGry + PORCJA_GIER);
 
     if (kolejnaPorcja.length === 0 && wyswietloneGry === 0) {
-        container.innerHTML = "<p style='color: #888; text-align: center; padding: 20px;'>Nie znaleziono gier.</p>";
+        container.innerHTML = "<p class='msg-empty'>Nie znaleziono gier.</p>";
         return;
     }
 
@@ -214,7 +214,7 @@ async function Showstats(appId, titleName, playtime, clickedBtn) {
     document.querySelectorAll('.stat-button').forEach(btn => btn.classList.remove('active-title'));
     if (clickedBtn) clickedBtn.classList.add('active-title');
 
-    content.innerHTML = `<p style="color: #66c0f4; text-align:center; padding: 40px;">Ładowanie danych z bazy Steam...</p>`;
+    content.innerHTML = `<p class="msg-loading-center">Ładowanie danych z bazy Steam...</p>`;
 
     try {
         const statsUrl = `https://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v1/?key=${apiKey}&steamid=${steamId}&appid=${appId}`;
@@ -285,7 +285,7 @@ async function Showstats(appId, titleName, playtime, clickedBtn) {
 
     } catch (e) {
         console.error("Błąd ładowania danych gry:", e);
-        content.innerHTML = `<p style="color: #ff4d4d; text-align:center; padding:20px;">Błąd komunikacji z API Steam.</p>`;
+        content.innerHTML = `<p class="msg-error-center">Błąd komunikacji z API Steam.</p>`;
     }
 }
 
@@ -307,7 +307,7 @@ function renderujKartePersonalna() {
 
     let html = `
         <div class="steam-playtime-badge">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:middle; margin-right:4px;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            <svg class="icon-playtime" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
             <span>Czas gry: <strong>${Math.round(aktualnaGraDane.playtime / 60)}h</strong></span>
         </div>
     `;
@@ -351,7 +351,7 @@ function renderujKartePersonalna() {
 
             html += `
                 <div class="rarest-achievements">
-                    <h4><i class="fas fa-trophy" style="margin-right: 8px;"></i> Twoje najrzadsze osiągnięcia:</h4>
+                    <h4><i class="fas fa-trophy icon-spacing-right"></i> Twoje najrzadsze osiągnięcia:</h4>
                     <ul>
             `;
 
@@ -370,7 +370,7 @@ function renderujKartePersonalna() {
             html += `</ul></div>`;
         }
     } else {
-        html += `<p style="color: #888; padding: 20px; text-align: center; font-style: italic;">Brak danych o osiągnięciach profilu.</p>`;
+        html += `<p class="msg-empty-italic">Brak danych o osiągnięciach profilu.</p>`;
     }
 
     target.innerHTML = html;
