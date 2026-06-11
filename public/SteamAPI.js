@@ -45,6 +45,7 @@ async function wyciagnijSteamID() {
 
         if (wynikDiv) wynikDiv.innerHTML = "<p style='color: #4df14d;'>Zalogowano pomyślnie!</p>";
         await wyswietlProfil(steamId);
+        location.reload();
 
     } catch (error) {
         console.error("Błąd logowania:", error);
@@ -94,6 +95,7 @@ function wyloguj() {
     
     const containerGier = document.querySelector('.rightcol-content');
     if (containerGier) containerGier.innerHTML = "";
+    location.reload();
 }
 
 async function pobierzIGrafikiGier(steamId) {
