@@ -1,3 +1,4 @@
+
 * {
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
@@ -788,4 +789,111 @@ body {
 /* KURSOR KLIKALNY - HOVER (Niebieski wskaźnik z białą ramką) */
 a, button, input, .kolko-awatar, .znaczek-logo, .cat-btn, .answer-btn {
     cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26"><polygon points="1,1 21,9 11,11 9,21" fill="%2366c0f4" stroke="%23ffffff" stroke-width="2" stroke-linejoin="round"/></svg>'), pointer !important;
+}
+
+/* ===== RESPONSIVE ===== */
+
+/* Tablet (~900px) – zmniejsz odstępy i wyszukiwarkę */
+@media (max-width: 900px) {
+    #gora-pasek {
+        padding: 0 20px;
+    }
+
+    .top-nav {
+        gap: 16px;
+    }
+
+    .nav-link {
+        font-size: 12px;
+        letter-spacing: 0.5px;
+        gap: 6px;
+    }
+
+    .top-search-container {
+        width: 180px;
+        padding: 5px 12px;
+    }
+
+    .top-search-container:focus-within {
+        width: 220px;
+    }
+
+    .topbar-right {
+        gap: 12px;
+    }
+}
+
+/* Mobile (~650px) – tylko ikony w nawigacji, ukryj wyszukiwarkę */
+@media (max-width: 650px) {
+    #gora-pasek {
+        padding: 0 12px;
+    }
+
+    /* Ukryj tekst linków, zostaw tylko ikony */
+    .nav-link {
+        font-size: 0;
+        letter-spacing: 0;
+        gap: 0;
+        padding: 8px 6px;
+    }
+
+    .nav-link i {
+        font-size: 20px;
+        opacity: 1;
+    }
+
+    .top-nav {
+        gap: 2px;
+    }
+
+    /* Ukryj wyszukiwarkę – jest osobna sekcja na stronie */
+    .top-search-container {
+        display: none;
+    }
+
+    .topbar-right {
+        gap: 8px;
+        flex: 1;
+    }
+
+    .topbar-center {
+        flex: 2;
+    }
+}
+
+/* Footer – stos kolumn na małych ekranach */
+@media (max-width: 600px) {
+    .footer-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 35px;
+        padding: 0 20px;
+    }
+
+    .footer-section.about {
+        max-width: 100%;
+    }
+
+    .footer-section.contact p {
+        justify-content: center;
+    }
+
+    .social-icons {
+        justify-content: center;
+    }
+
+    .footer-logo {
+        font-size: 1.5rem;
+    }
+
+    .main-footer {
+        padding: 40px 0 20px 0;
+    }
+
+    .footer-bottom {
+        margin-top: 30px;
+        font-size: 0.75rem;
+        padding: 15px 20px 0;
+    }
 }

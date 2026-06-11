@@ -1,6 +1,6 @@
 html, body {
     max-width: 100% !important;
-    overflow-x: hidden !important; /* Blokuje przesuwanie całej strony lewo-prawo */
+    overflow-x: hidden !important;
     margin: 0;
     padding: 0;
 }
@@ -9,6 +9,11 @@ html, body {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+}
+
+/* DOMYŚLNIE UKRYWAMY MOBILNĄ WYSZUKIWARKĘ NA DESKTOPIE */
+.mobile-search-container {
+    display: none;
 }
 
 .steam-avatar-overlay {
@@ -101,7 +106,6 @@ html, body {
     font-weight: bold;
 }
 
-
 .leftcol-btn.active-sort:hover {
     background-color: #47a6de !important; 
     color: #000000 !important;
@@ -129,7 +133,6 @@ html, body {
     border-radius: 10px;
 }
 
-
 .stat-button {
     display: flex;
     align-items: center;
@@ -151,18 +154,13 @@ html, body {
     border-color: #66c0f4;
 }
 
-.stat-button.active-title {
-    background: #66c0f4 !important;
-    box-shadow: 0 0 15px rgba(102, 192, 244, 0.4);
-}
-
 .btn-img {
-    height: 90px; /* Stała wysokość zdjęcia wewnątrz przycisku */
-    aspect-ratio: 2 / 3; /* WYMUSZA PIONOWE PROPORCJE PLAKATU */
-    object-fit: cover; /* Grafika wypełnia ramkę bez zniekształceń */
+    height: 90px; 
+    aspect-ratio: 2 / 3; 
+    object-fit: cover; 
     border-radius: 4px;
     margin-right: 20px;
-    flex-shrink: 0; /* Obrazek nie da się "ścisnąć" */
+    flex-shrink: 0; 
     box-shadow: 0 4px 8px rgba(0,0,0,0.4);
 }
 
@@ -175,10 +173,7 @@ html, body {
     overflow: hidden;
     text-overflow: ellipsis;
 }
-/*statystyki gry */
-.stat-button.active-title .btn-text {
-    color: #101214;
-}
+
 .stats-title {
     color: #66c0f4;
     border-bottom: 1px solid #444;
@@ -236,15 +231,13 @@ html, body {
     margin-bottom: 15px;
 }
 
-/* Mała ikonka w lewym panelu */
 .stats-mini-icon {
-    width: 24px; /* Nieco większa niż na liście, żeby była wyraźna */
+    width: 24px; 
     height: 24px;
     border-radius: 4px;
     flex-shrink: 0;
 }
 
-/* Usuwamy stare border-bottom z samej klasy tytułu, bo teraz mamy go w .stats-header */
 .stats-title-text {
     color: #66c0f4;
     margin: 0;
@@ -264,7 +257,7 @@ html, body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-left: 3px solid #ebe671; /* Złoty pasek dla rzadkich rzeczy */
+    border-left: 3px solid #ebe671; 
 }
 
 .rare-name {
@@ -275,7 +268,7 @@ html, body {
 
 .rare-percent {
     font-size: 0.85em;
-    color: #ebe671; /* Kolor rzadkości */
+    color: #ebe671; 
     background: rgba(235, 230, 113, 0.1);
     padding: 2px 8px;
     border-radius: 10px;
@@ -304,55 +297,82 @@ html, body {
     font-size: 12px;
     color: #444;
 }
+
+/* ==========================================================
+   ZINTEGROWANA I NAPRAWIONA SEKCJA MEDIA QUERIES DLA MOBILE
+   ========================================================== */
 @media (max-width: 900px) {
-    /* Zmieniamy układ całego panelu na pionowy */
     .drugi-panel {
-        flex-direction: column !important; /* Panel statystyk na dół, gry na górę */
+        flex-direction: column !important; 
         height: auto;
         overflow-y: visible;
         padding: 5em 3% 2em;
         gap: 15px;
     }
 
-    /* Prawy panel (lista gier) - teraz będzie na górze i przewijany w bok */
+    /* Wyszukiwarka wskakuje na samą górę sekcji */
+    .mobile-search-container {
+        display: block !important;
+        width: 100%;
+        padding: 5px 0px;
+        box-sizing: border-box;
+        height: auto;
+        order: 0; 
+    }
+
+    .mobile-search-container .searchInput {
+        width: 100% !important;
+        background: #2a475e !important; 
+        border: 1px solid #4f94bc !important;
+        border-radius: 4px !important;
+        color: white !important;
+        padding: 12px 15px !important;
+        font-size: 16px !important; 
+        outline: none;
+    }
+
+    .mobile-search-container .searchInput::placeholder {
+        color: #859bb2;
+    }
+
+    /* Ukrywamy uciętą wyszukiwarkę desktopową w dolnym panelu */
+    .desktop-search-container {
+        display: none !important;
+    }
+
+    /* Lista gier ląduje pod wyszukiwarką */
     .rightcol {
-        order: 1; /* Wymuszamy, by lista gier była pierwsza */
+        order: 1; 
         width: 100%;
         height: auto;
         padding: 10px 0;
-        overflow-x: auto; /* Włączamy przewijanie poziome */
+        overflow-x: auto; 
         overflow-y: hidden;
         display: flex;
-        flex-direction: row; /* Przyciski obok siebie */
+        flex-direction: row; 
         gap: 15px;
-        -webkit-overflow-scrolling: touch; /* Płynne przewijanie na iOS */
+        -webkit-overflow-scrolling: touch; 
     }
 
-    /* Układ kontenera z przyciskami gier */
     .rightcol-content {
         display: flex;
-        flex-direction: row; /* Gry w jednym rzędzie */
+        flex-direction: row; 
         gap: 12px;
         padding-bottom: 10px;
     }
 
-    /* Styl pojedynczego plakatu w wersji mobilnej */
     .stat-button {
-        flex-direction: column; /* Plakat nad tekstem */
-        width: 120px; /* Stała szerokość kafelka */
-        height: 200px; /* Stała wysokość */
-        flex-shrink: 0; /* Nie pozwól gierom się zgniatać */
+        flex-direction: column; 
+        width: 120px; 
+        height: 200px; 
+        flex-shrink: 0; 
         margin-bottom: 0;
         padding: 8px;
         text-align: center;
     }
 
-    .stat-button:hover {
-        transform: translateY(-5px); /* Na mobile lepiej unosić do góry niż w lewo */
-    }
-
-    .stat-button.active-title {
-        transform: translateY(-5px); /* Wybrana gra lekko uniesiona */
+    .stat-button:hover, .stat-button.active-title {
+        transform: translateY(-5px); 
     }
 
     .btn-img {
@@ -363,12 +383,12 @@ html, body {
     }
 
     .btn-text {
-        white-space: normal; /* Pozwól nazwie gry przejść do nowej linii */
+        white-space: normal; 
         font-size: 11px;
         line-height: 1.2;
     }
 
-    /* Lewy panel (statystyki) - pod listą gier */
+    /* Panel dolny ze statystykami i przyciskami sortowania */
     .leftcol {
         order: 2;
         width: 100%;
@@ -377,39 +397,23 @@ html, body {
         min-height: 300px;
     }
 
-    /* Przyciski sortowania - żeby się nie gniotły, dajemy im przewijanie jeśli jest ich dużo */
+    /* Elastyczne i idealnie skalujące się przyciski sortowania */
     .leftcol-bar {
-        overflow-x: auto;
-        white-space: nowrap;
-        justify-content: flex-start;
-    }
-}
-@media (max-width: 900px) {
-    /* Kontener wyszukiwarki */
-    .mobile-search-container {
-        width: 100%;
-        padding: 10px 20px;
-        box-sizing: border-box;
-        height: 10vh;
+        display: flex !important;
+        flex-wrap: wrap !important; /* Pozwala im przejść do nowej linii, jeśli ekran jest wyjątkowo wąski */
+        gap: 8px !important;
+        padding: 12px !important;
+        justify-content: space-between !important;
     }
 
-    /* Wygląd samego pola wpisywania */
-    .searchInput {
-        width: 100% !important;
-        background: #2a475e !important; /* Ciemniejszy niebieski Steam */
-        border: 1px solid #4f94bc !important;
-        border-radius: 4px !important;
-        color: white !important;
-        padding: 12px 15px !important;
-        font-size: 16px !important; /* Zapobiega auto-zoomowi na iPhone */
-        outline: none;
+    .leftcol-bar .leftcol-btn {
+        flex: 1 1 calc(33.333% - 8px) !important; /* Każdy przycisk zajmuje równą szerokość */
+        min-width: 90px;
+        text-align: center !important;
+        padding: 10px 5px !important;
+        font-size: 12px !important;
     }
 
-    .searchInput::placeholder {
-        color: #859bb2;
-    }
-
-    /* Ukrywamy starą wyszukiwarkę w pasku górnym, jeśli tam jeszcze jest */
     .top-search-container {
         display: none !important;
     }

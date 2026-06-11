@@ -10,36 +10,44 @@
 <body>
     <div class="cursor-dot"></div>
     <div class="cursor-outline"></div>
-    <div id="gora-pasek">
-        <div class="topbar-left">
-            <div class="znaczek-logo" id="main-logo" onclick="location.href='index.html'">L</div>
-        </div>
 
-        <div class="topbar-center">
-            <nav class="top-nav">
-                <a href="index.html" class="nav-link"><i class="fas fa-arrow-left"></i> Powrót do Huba</a>
-            </nav>
-        </div>
+<div id="gora-pasek">
+    <div class="topbar-left">
+        <div class="znaczek-logo" id="main-logo">L</div>
+    </div>
 
-        <div class="topbar-right">
-            <div class="avatar-dropdown-container">
-                <div id="userAvatarContainer" class="kolko-awatar" onclick="toggleAvatarMenu()">
-                    <div class="glowa"></div>
-                    <div class="ramiona"></div>
+    <div class="topbar-center">
+    <nav class="top-nav">
+        <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Główna</a>
+        <a href="tile2.html" class="nav-link"><i class="fas fa-chart-bar"></i> Statystyki</a>
+        <a href="YtSearch.html" class="nav-link"><i class="fas fa-search"></i> Wyszukiwarka</a>
+        <a href="#panel-gra" class="nav-link"><i class="fas fa-gamepad"></i> Zagraj w Quiz</a>
+    </nav>
+</div>
+
+    <div class="topbar-right">
+        
+        <div class="avatar-dropdown-container">
+            <div id="userAvatarContainer" class="kolko-awatar" onclick="toggleAvatarMenu()">
+                <div class="glowa"></div>
+                <div class="ramiona"></div>
+            </div>
+            
+            <div id="avatar-menu" class="avatar-dropdown">
+                <div class="dropdown-header">
+                    <span>Witaj, Grzybiarzu!</span>
                 </div>
-                
-                <div id="avatar-menu" class="avatar-dropdown">
-                    <div class="dropdown-header">
-                        <span>Witaj, Grzybiarzu!</span>
-                    </div>
-                    <hr class="dropdown-divider">
-                    <a href="Steamlogin.html" class="dropdown-item">
-                        <i class="fab fa-steam"></i> Zaloguj przez Steam
-                    </a>
-                </div>
+                <hr class="dropdown-divider">
+                <a href="Steamlogin.html" class="dropdown-item">
+                    <i class="fab fa-steam"></i> Zaloguj przez Steam
+                </a>
+                <a href="#" class="dropdown-item">
+                    <i class="fas fa-cog"></i> Ustawienia
+                </a>
             </div>
         </div>
     </div>
+</div>
 
     <div id="gra" class="panel-gra" style="margin-top: 70px; min-height: 90vh; position: relative; z-index: 1;">
         
