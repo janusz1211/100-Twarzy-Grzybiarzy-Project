@@ -424,3 +424,52 @@
 .genres-tags {
     color: #66c0f4 !important;
 }
+/* Komunikaty statusu (logowanie, błędy) */
+.msg-error {
+    color: #ff4d4d;
+}
+
+.msg-success {
+    color: #4df14d;
+}
+
+.msg-info {
+    color: #66c0f4;
+}
+
+/* Komunikaty wyśrodkowane (ładowanie, brak danych, błędy API) */
+.msg-empty {
+    color: #888;
+    text-align: center;
+    padding: 20px;
+}
+
+.msg-empty-italic {
+    color: #888;
+    text-align: center;
+    padding: 20px;
+    font-style: italic;
+}
+
+.msg-loading-center {
+    color: #66c0f4;
+    text-align: center;
+    padding: 40px;
+}
+
+.msg-error-center {
+    color: #ff4d4d;
+    text-align: center;
+    padding: 20px;
+}
+
+/* Ikony i odstępy */
+.icon-playtime {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 4px;
+}
+
+.icon-spacing-right {
+    margin-right: 8px;
+}

@@ -187,3 +187,46 @@
     color: #cccccc;
     font-size: 0.9rem;
     }
+
+
+    /* Wymuszenie idealnego centrowania dla kafelków / ekranów ładowania */
+.kick-loading, 
+.yt-loading, 
+.twitch-loading,
+.kick-card,
+.twitch-card {
+    display: flex !important;
+    flex-direction: column !important; /* Układa napisy jeden pod drugim */
+    justify-content: center !important; /* Centruje idealnie w pionie */
+    align-items: center !important; /* Centruje w poziomie */
+    text-align: center !important;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    /* OSTATECZNE usunięcie zepsutego tła SVG */
+    background-image: none !important; 
+    background-color: #0b0e0f !important;
+}
+
+/* Usunięcie domyślnych marginesów, które wypychają tekst do góry */
+.kick-loading h1, .kick-loading h2, .kick-loading h3,
+.kick-loading p, .kick-loading span,
+.kick-card h1, .kick-card h2, .kick-card h3,
+.kick-card p, .kick-card span {
+    margin: 5px 0 !important;
+    line-height: 1.2 !important;
+}
+
+/* Opcjonalne powiększenie napisu KICK, jeśli to zwykły tekst */
+.kick-loading h2, .kick-card h2 {
+    font-size: 3rem !important;
+    font-weight: 900 !important;
+    letter-spacing: 2px;
+    color: #ffffff !important;
+}
+
+.kick-loading p, .kick-card p {
+    color: #53fc18 !important; /* Zielony akcent Kicka */
+    font-size: 1.1rem !important;
+}

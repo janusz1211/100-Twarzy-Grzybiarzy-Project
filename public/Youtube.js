@@ -86,6 +86,8 @@
         });
     }
 
+    window.fetchGamingLive = fetchGamingLive;
+
     async function fetchGamingLive(specificGame = null) {
         const ytCell = document.getElementById('yt-live-cell');
         if (!ytCell) return;

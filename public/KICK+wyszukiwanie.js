@@ -176,15 +176,17 @@ async function loadTopKickStream(categorySlug) {
             if (!streamer) throw new Error("Błąd odczytu nazwy streamera z API Kick.");
 
             contentDiv.innerHTML = `
-                <div class="kick-embed-wrapper" style="height: 100%; display: flex; flex-direction: column;">
+                <div class="kick-embed-wrapper">
                     <div style="flex-grow: 1; position: relative;">
                          <iframe class="kick-frame" src="https://player.kick.com/${streamer}?muted=true&autoplay=true" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" allowfullscreen></iframe>
                     </div>
-                    <div class="kick-embed-info" style="padding: 15px; background: #171a21; border-top: 1px solid #2a475e;">
-                        <span style="background: #53fc18; color: black; padding: 2px 8px; font-weight: bold; border-radius: 4px;">🔴 LIVE</span>
-                        <span style="margin-left: 10px; color: #53fc18; font-weight: bold;">${Number(viewers).toLocaleString()} widzów</span>
-                        <h3 style="margin: 5px 0; color: white;">${streamer}</h3>
-                        <p style="margin: 0; font-size: 13px; color: #8f98a0;">${categoryName}</p>
+                    <div class="kick-embed-info">
+                        <div class="kick-badges">
+                            <span class="kick-badge-live">🔴 Live</span>
+                            <span class="kick-badge-viewers"><i class="fas fa-user"></i> ${Number(viewers).toLocaleString()} widzów</span>
+                        </div>
+                        <h3>${streamer}</h3>
+                        <p>${categoryName}</p>
                     </div>
                 </div>
             `;
@@ -258,6 +260,10 @@ document.addEventListener('DOMContentLoaded', () => {
                             
                             if (typeof loadTopTwitchStream === "function") {
                                 loadTopTwitchStream(game.name);
+                            }
+
+                            if (typeof window.fetchGamingLive === "function") {
+                                window.fetchGamingLive(game.name);
                             }
                         };
                         suggestionsBox.appendChild(item);
