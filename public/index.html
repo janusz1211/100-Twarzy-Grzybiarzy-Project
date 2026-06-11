@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="statystyki.css">
     <link rel="stylesheet" href="game.css"> 
     <link rel="stylesheet" href="slider.css">
-    <link rel="stylesheet" href="slider-css.css">
+    <link rel="stylesheet" href="slider-button.css">
     <link rel="stylesheet" href="emebeded-content.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -61,12 +61,15 @@
         <div class="xbox-slider" id="mainSlider">
             <div class="slides-container">
 
-                <div class="slide streams-master-slide active">
+<div class="slide streams-master-slide active">
     <div class="streams-accordion">
         
         <div class="stream-panel twitch-panel">
             <div class="panel-content-wrapper">
+                <button class="close-panel-btn" aria-label="Zwiń panel"><i class="fas fa-times"></i></button>
                 <div class="panel-header">
+                    <h2>Twitch</h2>
+                    <p>Kliknij, aby obejrzeć</p>
                 </div>
                 <div class="stream-content" id="twitch-cell"></div>
             </div>
@@ -74,7 +77,10 @@
 
         <div class="stream-panel youtube-panel">
             <div class="panel-content-wrapper">
+                <button class="close-panel-btn" aria-label="Zwiń panel"><i class="fas fa-times"></i></button>
                 <div class="panel-header">
+                    <h2>YouTube</h2>
+                    <p>Kliknij, aby obejrzeć</p>
                 </div>
                 <div class="stream-content" id="yt-live-cell"></div>
             </div>
@@ -82,7 +88,10 @@
 
         <div class="stream-panel kick-panel">
             <div class="panel-content-wrapper">
+                <button class="close-panel-btn" aria-label="Zwiń panel"><i class="fas fa-times"></i></button>
                 <div class="panel-header">
+                    <h2>Kick</h2>
+                    <p>Kliknij, aby obejrzeć</p>
                 </div>
                 <div class="stream-content" id="kick-cell"></div>
             </div>
@@ -178,5 +187,6 @@
     <script src="Youtube.js"></script>
     <script src="Twitch.js"></script>
     <script src="theme.js"></script>
+    <script src="slider.js"></script>
 </body>
 </html>

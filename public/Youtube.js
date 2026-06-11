@@ -1,4 +1,4 @@
-const API_KEY = '';
+const API_KEY = 'AIzaSyBqbummZzueGCF453eWd0B4i73QPiPAQG8';
 const searchBtn = document.getElementById('search-btn');
 const loadMoreBtn = document.getElementById('load-more-btn');
 const queryInput = document.getElementById('youtube-query');
@@ -138,6 +138,7 @@ async function fetchGamingLive(specificGame = null) {
             const badgeText = specificGame ? `Na żywo: ${specificGame}` : "Gry na żywo (PL)";
 
             // Zamiast miniaturki, osadzamy odtwarzacz gotowy do oglądania wewnątrz panelu
+        // Zamiast miniaturki, osadzamy odtwarzacz gotowy do oglądania wewnątrz panelu
         ytCell.innerHTML = `
             <div class="youtube-embed-wrapper" style="width: 100%; height: 100%; position: relative;">
                 <div style="position: absolute; top: 0; left: 0; width: 100%; padding: 15px; background: linear-gradient(rgba(0,0,0,0.8), transparent); z-index: 50; color: white;">

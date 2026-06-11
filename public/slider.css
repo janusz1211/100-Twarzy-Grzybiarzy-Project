@@ -1,205 +1,128 @@
-/* Reset i podstawy */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+/* Kontener główny - szerszy niż ekran, by ukryć ucięte rogi po bokach */
+.streams-accordion {
+    display: flex;
+    width: 110vw; 
+    margin-left: -5vw; /* Centrujemy powiększony kontener */
+    height: 100vh;
+    background-color: #0b0e0f;
+    overflow: hidden;
 }
 
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Czcionka podobna do MS */
+/* Pojedynczy panel - pochylony pod kątem */
+.stream-panel {
+    flex: 1;
+    position: relative;
+    transform: skewX(-15deg); /* Pochylenie kontenera o 15 stopni w lewo */
+    border-right: 4px solid #171A21;
+    transition: flex 0.5s ease, transform 0.5s ease;
+    cursor: pointer;
+    overflow: hidden;
 }
 
-/* Główny kontener slidera */
-.xbox-slider {
-  position: relative;
-  width: 100%;
-  height: 100vh; /* Dostosuj wysokość do swoich potrzeb */
-  min-height: 500px;
-  overflow: hidden;
-  background-color: #000;
+.stream-panel:last-child {
+    border-right: none;
 }
 
-/* Kontener slajdów */
-.slides-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
+/* Kolory tła */
+.twitch-panel { background: linear-gradient(135deg, #18181b, #6441a5); }
+.youtube-panel { background: linear-gradient(135deg, #282828, #ff0000); }
+.kick-panel { background: linear-gradient(135deg, #0b0e0f, #53fc18); }
+
+/* Wewnętrzny wrapper - odkręca zawartość z powrotem do pionu */
+.panel-content-wrapper {
+    transform: skewX(15deg); /* Kontruje pochylenie rodzica */
+    width: 100vw; /* Zapas szerokości dla bezpiecznego wyświetlania */
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    left: 50%;
+    margin-left: -50vw; /* Utrzymuje zawartość idealnie na środku */
+    transition: transform 0.5s ease;
 }
 
-/* Pojedynczy slajd */
-.slide {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-position: center;
-  opacity: 0;
-  transition: opacity 0.6s ease-in-out; /* Płynne przejście Fade */
-  z-index: 1;
-  display: flex;
-  align-items: flex-end; /* Tekst na dole */
-  padding: 5% 8%; /* Odstępy od krawędzi */
+/* --- EFEKTY HOVER --- */
+.streams-accordion:hover .stream-panel {
+    flex: 0.5;
+}
+.streams-accordion .stream-panel:hover {
+    flex: 2;
 }
 
-.slide.active {
-  opacity: 1;
-  z-index: 2;
+/* --- EFEKT PO KLIKNIĘCIU (Stan Aktywny) --- */
+.stream-panel.is-active {
+    flex: 10 !important;
+    transform: skewX(0deg); /* PROSTUJEMY PANEL DO PROSTOKĄTA */
+    border-right: none;
+    z-index: 10;
+    cursor: default;
 }
 
-/* Przyciemnienie tła dla lepszej czytelności tekstu (Opcjonalne) */
-.slide::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 60%);
-  z-index: -1;
+.stream-panel.is-hidden {
+    flex: 0 !important; /* Pozostałe panele znikają */
+    border: none;
 }
 
-/* Treść slajdu */
-.slide-content {
-  position: relative;
-  z-index: 2;
-  color: #fff;
-  max-width: 520px;
-  background: rgba(0, 0, 0, 0.45);
-  backdrop-filter: blur(10px);
-  padding: 32px;
-  border-radius: 24px;
-  transform: translateY(20px);
-  opacity: 0;
-  transition: all 0.6s ease-in-out 0.25s;
+/* Odkręcamy wrapper w aktywnym panelu, bo rodzic nie jest już pochylony */
+.stream-panel.is-active .panel-content-wrapper {
+    transform: skewX(0deg); 
+    width: 100vw;
 }
 
-.slide.active .slide-content {
-  transform: translateY(0);
-  opacity: 1;
+/* Ukrycie nagłówków po kliknięciu */
+.stream-panel.is-active .panel-header {
+    opacity: 0;
+    pointer-events: none;
 }
 
-.slide-content img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 20px;
-  display: block;
+/* Pokazanie odtwarzacza */
+.stream-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease 0.4s; /* Odtwarzacz pojawia się, gdy panel się wyprostuje */
 }
 
-.slide-content h2 {
-  font-size: clamp(2rem, 4vw, 3rem);
-  margin-bottom: 14px;
-  font-weight: 700;
+.stream-panel.is-active .stream-content {
+    opacity: 1;
+    pointer-events: all;
 }
 
-.slide-content p {
-  font-size: clamp(1rem, 2.2vw, 1.2rem);
-  margin-bottom: 22px;
-  line-height: 1.5;
+/* Przycisk zamykania / zwijania panelu */
+.close-panel-btn {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 100; /* Musi być wyżej niż iframe! */
+    opacity: 0;
+    pointer-events: none; /* Wyłączony, gdy panel jest mały */
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.status-tag {
-  display: inline-block;
-  padding: 10px 16px;
-  margin-top: 16px;
-  color: #d1ff8f;
-  background: rgba(155, 240, 11, 0.15);
-  border: 1px solid rgba(155, 240, 11, 0.45);
-  border-radius: 999px;
-  font-size: 0.95rem;
+.close-panel-btn:hover {
+    background: #ff4444;
+    border-color: #ff4444;
+    transform: scale(1.1);
 }
 
-/* Przyciski CTA */
-.btn {
-  display: inline-block;
-  padding: 12px 24px;
-  font-size: 1rem;
-  font-weight: bold;
-  text-decoration: none;
-  border-radius: 2px;
-  transition: background-color 0.2s, transform 0.1s;
-}
-
-.btn-primary {
-  background-color: #9bf00b; /* Kolor Xbox Green */
-  color: #000;
-}
-
-.btn-primary:hover {
-  background-color: #82c90a;
-}
-
-.btn-secondary {
-  background-color: transparent;
-  color: #fff;
-  border: 2px solid #fff;
-}
-
-.btn-secondary:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
-/* Przyciski nawigacji (Strzałki) */
-.slider-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(0, 0, 0, 0.5);
-  color: white;
-  border: none;
-  width: 50px;
-  height: 50px;
-  cursor: pointer;
-  z-index: 10;
-  font-size: 24px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: background 0.3s;
-}
-
-.slider-btn:hover {
-  background: rgba(0, 0, 0, 0.8);
-}
-
-.prev-btn { left: 20px; }
-.next-btn { right: 20px; }
-
-/* Paginacja (Kropki na dole) */
-.pagination {
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 10;
-  display: flex;
-  gap: 10px;
-}
-
-.dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.5);
-  cursor: pointer;
-  border: 2px solid transparent;
-  transition: all 0.3s;
-}
-
-.dot:hover {
-  background-color: rgba(255, 255, 255, 0.8);
-}
-
-.dot.active {
-  background-color: #fff;
-  border-color: #9bf00b; /* Akcent Xbox */
-  transform: scale(1.2);
-}
-
-/* Responsywność */
-@media (max-width: 768px) {
-  .slide-content h2 { font-size: 2rem; }
-  .slider-btn { width: 40px; height: 40px; font-size: 18px; }
+/* Pokazujemy przycisk TYLKO w aktywnym panelu */
+.stream-panel.is-active .close-panel-btn {
+    opacity: 1;
+    pointer-events: all; /* Włączamy klikalność */
 }
