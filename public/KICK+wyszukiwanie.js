@@ -2,8 +2,6 @@ function dropDownList() {
     document.getElementById("myDropdown").classList.toggle("show");
 }
 
-
-
 function toggleA11yPanel() {
     const a11yPanel = document.getElementById('a11y-panel');
     if (a11yPanel) {
@@ -13,19 +11,15 @@ function toggleA11yPanel() {
     }
 }
 
-
 // Tymczasowa funkcja do testowania wyszukiwarki
 function tymczasowyPrzelacznik() {
     const logo = document.getElementById('main-logo');
     const searchBar = document.getElementById('top-search-bar');
 
-    // Jeśli logo jest widoczne -> schowaj logo, pokaż szukajkę
     if (logo.style.display !== 'none') {
         logo.style.display = 'none';
         searchBar.style.display = 'flex';
-    } 
-    // Jeśli logo jest ukryte (pokazana szukajka) -> pokaż logo, schowaj szukajkę
-    else {
+    } else {
         logo.style.display = 'block'; 
         searchBar.style.display = 'none';
     }
@@ -42,19 +36,19 @@ window.onclick = function(event) {
         }
     }
 }
+
 function toggleMenu() {
     const sideMenu = document.getElementById('side-menu');
-    // Jeśli menu ma klasę 'active', to ją zabiera. Jeśli nie ma - dodaje.
     sideMenu.classList.toggle('active');
 }
 
-// WKLEJ TU SWOJE KLUCZE
+// ==========================================
+// SEKCJA KICK API
+// ==========================================
 const KICK_CLIENT_ID = '01KNY8PZDKESCEQMYVQB9PKZMQ';
 const KICK_CLIENT_SECRET = '95c096b355705e671bf8a4f7464ffe0ade3b0acafc565b531bc1eb960066de48';
 
-// Używamy tego proxy, bo najlepiej omija blokady
 const PROXY = 'https://corsproxy.io/?'; 
-
 let currentKickToken = null;
 
 function initKickCell() {
@@ -72,7 +66,6 @@ function initKickCell() {
     loadTopKickStream(""); 
 }
 
-// 2. FUNKCJA POBIERAJĄCA TOKEN
 async function getKickToken(contentDiv) {
     contentDiv.innerHTML = `<div style="color: yellow; text-align: center; padding-top: 20px;">[Krok 1] Generowanie Tokenu Kick...</div>`;
     
@@ -97,7 +90,6 @@ async function getKickToken(contentDiv) {
     }
 }
 
-// 3. GŁÓWNA FUNKCJA ŁADUJĄCA WIDEO
 async function loadTopKickStream(categorySlug) {
     const contentDiv = document.getElementById('kick-content');
     const nameLabel = document.getElementById('active-category-name');
@@ -115,15 +107,12 @@ async function loadTopKickStream(categorySlug) {
         let categoryId = null;
         let finalUrl = 'https://api.kick.com/public/v1/livestreams?limit=1';
 
-        // Jeśli szukamy konkretnej gry (z paska Steam)
         if (categorySlug && categorySlug !== "") {
             nameLabel.innerText = "Szukam kategorii...";
+            let cleanName = categorySlug.replace(/[™®©]/g, '').trim();
 
-            // 1. Czyścimy nazwę ze Steama
-            let cleanName = categorySlug.replace(/[™®]/g, '').trim();
-
-            // 2. Pytamy Kicka o ID gry (poprawiony URL: name= zamiast name[]=)
-            const catUrl = `https://api.kick.com/public/v2/categories?name=${encodeURIComponent(cleanName)}`;
+            // Używamy parametru q (zamiast name), co jest bardziej kompatybilne z nowym API Kicka
+            const catUrl = `https://api.kick.com/public/v2/categories?q=${encodeURIComponent(cleanName)}`;
             const catRes = await fetch(PROXY + encodeURIComponent(catUrl), {
                 headers: { 
                     'Authorization': `Bearer ${currentKickToken}`,
@@ -132,25 +121,23 @@ async function loadTopKickStream(categorySlug) {
             });
 
             if (catRes.status === 401 || catRes.status === 403) {
-                currentKickToken = null; // Resetujemy token, żeby przy kolejnym kliknięciu pobrał nowy
+                currentKickToken = null;
                 throw new Error("Token wygasł! Kliknij grę jeszcze raz.");
             }
-            if (!catRes.ok) throw new Error("Błąd łączenia z Kick API.");
+            
+            if (!catRes.ok) throw new Error("Błąd łączenia z Kick API przy pobieraniu kategorii.");
             
             const catData = await catRes.json();
             const categories = catData.data || catData;
-
             
             let matchedCategory = null;
             if (categories && categories.length > 0) {
-                // Szukamy w liście zwróconej przez Kicka gry, której nazwa pasuje do tego, czego szukaliśmy
                 matchedCategory = categories.find(c => 
                     c.name.toLowerCase().includes(cleanName.toLowerCase()) || 
                     cleanName.toLowerCase().includes(c.name.toLowerCase())
                 );
                 
-                
-                if (!matchedCategory && categories[0].slug !== "apex-legends") {
+                if (!matchedCategory) {
                     matchedCategory = categories[0];
                 }
             }
@@ -172,15 +159,21 @@ async function loadTopKickStream(categorySlug) {
             headers: { 'Authorization': `Bearer ${currentKickToken}`, 'Accept': 'application/json' }
         });
 
-        if (!streamRes.ok) throw new Error("Nie udało się pobrać wideo.");
+        if (!streamRes.ok) {
+            if (streamRes.status === 401 || streamRes.status === 403) currentKickToken = null;
+            throw new Error(`Błąd pobierania streamów: HTTP ${streamRes.status}`);
+        }
 
         const streamData = await streamRes.json();
-        const stream = streamData.data && streamData.data[0] ? streamData.data[0] : null;
+        const stream = streamData.data && streamData.data.length > 0 ? streamData.data[0] : null;
 
         if (stream) {
-            const streamer = stream.slug || (stream.channel && stream.channel.slug);
+            // Oficjalne API v1 chowa sluga w obiekcie broadcaster
+            const streamer = stream.broadcaster?.slug || stream.broadcaster?.username || stream.slug || stream.channel?.slug;
             const viewers = stream.viewer_count || stream.viewers || 0;
-            const categoryName = stream.category ? stream.category.name : (categorySlug || "Kick Stream");
+            const categoryName = stream.category?.name || (categorySlug || "Kick Stream");
+
+            if (!streamer) throw new Error("Błąd odczytu nazwy streamera z API Kick.");
 
             contentDiv.innerHTML = `
                 <div class="kick-embed-wrapper" style="height: 100%; display: flex; flex-direction: column;">
@@ -188,18 +181,18 @@ async function loadTopKickStream(categorySlug) {
                          <iframe class="kick-frame" src="https://player.kick.com/${streamer}?muted=true&autoplay=true" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" allowfullscreen></iframe>
                     </div>
                     <div class="kick-embed-info" style="padding: 15px; background: #171a21; border-top: 1px solid #2a475e;">
-                        <span style="background: #53fc18; color: black; padding: 2px 8px; font-weight: bold;">🔴 LIVE</span>
-                        <span style="margin-left: 10px; color: #53fc18;">${Number(viewers).toLocaleString()} widzów</span>
+                        <span style="background: #53fc18; color: black; padding: 2px 8px; font-weight: bold; border-radius: 4px;">🔴 LIVE</span>
+                        <span style="margin-left: 10px; color: #53fc18; font-weight: bold;">${Number(viewers).toLocaleString()} widzów</span>
                         <h3 style="margin: 5px 0; color: white;">${streamer}</h3>
                         <p style="margin: 0; font-size: 13px; color: #8f98a0;">${categoryName}</p>
                     </div>
                 </div>
             `;
         } else {
-            throw new Error("Brak streamów dla tej gry.");
+            throw new Error("Brak streamów dla tej gry na Kicku w tej chwili.");
         }
     } catch (error) {
-        console.error('BŁĄD APLIKACJI:', error);
+        console.error('BŁĄD APLIKACJI (KICK):', error);
         contentDiv.innerHTML = `
             <div style="color: #ff4444; text-align: center; padding-top: 30px;">
                 <p>🛑 ${error.message}</p>
@@ -207,10 +200,11 @@ async function loadTopKickStream(categorySlug) {
     }
 }
 
-// 4. Odpalenie całości gdy strona się załaduje
 document.addEventListener('DOMContentLoaded', initKickCell);
 
-
+// ==========================================
+// SEKCJA WYSZUKIWARKI STEAM I INNYCH
+// ==========================================
 document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.getElementById('game-search-input');
     const suggestionsBox = document.getElementById('search-suggestions');
@@ -218,8 +212,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!searchInput || !suggestionsBox) return;
 
     let timeoutId;
-    
-  
     const STEAM_PROXY = 'https://corsproxy.io/?';
 
     searchInput.addEventListener('input', function() {
@@ -240,13 +232,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const steamApiUrl = `https://store.steampowered.com/api/storesearch/?term=${encodeURIComponent(query)}&l=polish&cc=PL`;
                 
-                // Uderzamy przez corsproxy
                 const response = await fetch(STEAM_PROXY + encodeURIComponent(steamApiUrl));
-                
                 if (!response.ok) throw new Error("Błąd proxy Steama");
                 
                 const data = await response.json();
-
                 suggestionsBox.innerHTML = '';
 
                 if (data.items && data.items.length > 0) {
@@ -267,7 +256,6 @@ document.addEventListener('DOMContentLoaded', () => {
                                 loadTopKickStream(game.name);
                             }
                             
-                            // NOWE: Wywołanie aktualizacji Twitcha po wyszukaniu gry
                             if (typeof loadTopTwitchStream === "function") {
                                 loadTopTwitchStream(game.name);
                             }
@@ -297,7 +285,7 @@ function refhome() {
 }
 
 // ==========================================
-// 3. EASTER EGG - CZYSTE ZDJĘCIE
+// EASTER EGG & AWATARY & EFEKTY WIZUALNE
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
     const footerCat = document.getElementById('footer-cat');
@@ -310,26 +298,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     footerCat.addEventListener('click', () => {
         clickCount++;
-        
-        // Kotek rośnie przy klikaniu
         footerCat.style.transform = `scale(${1 + clickCount * 0.2})`;
         clearTimeout(resetTimer);
 
         if (clickCount >= 5) {
-            // Po 5 kliknięciach: reset kota
             footerCat.style.transform = 'scale(1)';
             clickCount = 0;
-            
-            // Pokazujemy zdjęcie na cały ekran
             secretEgg.classList.remove('hidden');
 
-            // Chowamy po 5 sekundach
             setTimeout(() => {
                 secretEgg.classList.add('hidden');
             }, 5000);
             
         } else {
-            // Reset liczników po 2 sekundach bezczynności
             resetTimer = setTimeout(() => {
                 clickCount = 0;
                 footerCat.style.transform = 'scale(1)';
@@ -337,34 +318,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
-// Otwieranie/zamykanie menu po kliknięciu w awatar
-function toggleAvatarMenu() {
-    const menu = document.getElementById('avatar-menu');
-    menu.classList.toggle('active');
-}
 
-// Zamykanie menu, jeśli użytkownik kliknie gdzieś indziej na stronie
-document.addEventListener('click', function(event) {
-    const container = document.querySelector('.avatar-dropdown-container');
-    const menu = document.getElementById('avatar-menu');
-    
-    // Sprawdza czy kliknięto poza kontenerem menu
-    if (container && !container.contains(event.target)) {
-        if (menu.classList.contains('active')) {
-            menu.classList.remove('active');
-        }
-    }
-});
-
-
-
-// --- ROZWIJANE MENU AWATARA ---
 function toggleAvatarMenu() {
     const menu = document.getElementById('avatar-menu');
     if (menu) menu.classList.toggle('active');
 }
 
-// Zamykanie menu po kliknięciu gdzie indziej
 document.addEventListener('click', function(event) {
     const container = document.querySelector('.avatar-dropdown-container');
     const menu = document.getElementById('avatar-menu');
@@ -376,16 +335,13 @@ document.addEventListener('click', function(event) {
     }
 });
 
-// --- AKTUALIZACJA MENU AWATARA (Zalogowany/Niezalogowany) ---
 function aktualizujMenuAwatara() {
     const avatarMenu = document.getElementById('avatar-menu');
     if (!avatarMenu) return; 
 
-    // Skrypt SAM sprawdza, czy użytkownik ma zapisane ID
     const steamId = localStorage.getItem('zapisaneSteamID');
 
     if (steamId) {
-        // --- STAN ZALOGOWANY ---
         avatarMenu.innerHTML = `
             <div class="dropdown-header">
                 <span>Witaj, Grzybiarzu!</span>
@@ -399,7 +355,6 @@ function aktualizujMenuAwatara() {
             </a>
         `;
         
-        // Ukrywanie formularza na stronie logowania (jeśli na niej jesteśmy)
         const loginSection = document.getElementById('loginSection');
         if (loginSection) {
             loginSection.innerHTML = `
@@ -416,7 +371,6 @@ function aktualizujMenuAwatara() {
             `;
         }
     } else {
-        // --- STAN NIEZALOGOWANY ---
         avatarMenu.innerHTML = `
             <div class="dropdown-header">
                 <span>Witaj, Nieznajomy!</span>
@@ -429,38 +383,28 @@ function aktualizujMenuAwatara() {
     }
 }
 
-// --- WYLOGOWANIE ---
 function wyloguj() {
-    localStorage.removeItem('zapisaneSteamID'); // Usuwamy ID z pamięci
-    aktualizujMenuAwatara(); // Od razu zmieniamy menu z powrotem na "Zaloguj"
-    location.reload(); // Odświeżamy stronę, żeby wyczyścić profil i gry
+    localStorage.removeItem('zapisaneSteamID');
+    aktualizujMenuAwatara(); 
+    location.reload(); 
 }
 
-// --- MEGA WAŻNE: Odpalanie funkcji od razu po załadowaniu strony ---
 document.addEventListener('DOMContentLoaded', function() {
     aktualizujMenuAwatara();
 });
 
-// --- DELIKATNA POŚWIATA KURSORA (TRAIL) ---
 document.addEventListener('mousemove', function(e) {
-    // Tworzymy nowy element smugi
     const trail = document.createElement('div');
     trail.className = 'magic-trail';
-    
-    // Ustawiamy go dokładnie tam, gdzie jest myszka
     trail.style.left = e.clientX + 'px';
     trail.style.top = e.clientY + 'px';
-    
-    // Dodajemy go do strony
     document.body.appendChild(trail);
     
-    // Odpalamy animację w następnej klatce (żeby przeglądarka to płynnie wyrenderowała)
     requestAnimationFrame(() => {
-        trail.style.opacity = '0'; // Znika
-        trail.style.transform = 'translate(-50%, -50%) scale(0.2)'; // Kurczy się
+        trail.style.opacity = '0';
+        trail.style.transform = 'translate(-50%, -50%) scale(0.2)';
     });
     
-    // Po 400ms (czas trwania animacji w CSS) usuwamy element, żeby nie zapchać pamięci
     setTimeout(() => {
         trail.remove();
     }, 400);

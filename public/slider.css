@@ -1,10 +1,19 @@
-/* Kontener główny - szerszy niż ekran, by ukryć ucięte rogi po bokach */
+/* Reset dla pierwszego panelu, by akordeon idealnie pasował do ekranu */
+.pierwszy-panel {
+    height: calc(100vh - 70px); /* Odejmujemy wysokość górnego paska nawigacji */
+    width: 100vw;
+    margin-top: 70px;
+    background-color: #0b0e0f;
+    overflow: hidden;
+}
+
+/* Kontener główny - powiększony (scale), by ukryć prześwitujące ukośne rogi */
 .streams-accordion {
     display: flex;
-    width: 110vw; 
-    margin-left: -5vw; /* Centrujemy powiększony kontener */
-    height: 100vh;
+    width: 95%;
+    height: 100%;
     background-color: #0b0e0f;
+    transform: scale(1.05);
     overflow: hidden;
 }
 
@@ -12,9 +21,9 @@
 .stream-panel {
     flex: 1;
     position: relative;
-    transform: skewX(-15deg); /* Pochylenie kontenera o 15 stopni w lewo */
+    transform: skewX(-15deg); 
     border-right: 4px solid #171A21;
-    transition: flex 0.5s ease, transform 0.5s ease;
+    transition: flex 0.6s cubic-bezier(0.25, 0.8, 0.25, 1), transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
     cursor: pointer;
     overflow: hidden;
 }
@@ -23,60 +32,92 @@
     border-right: none;
 }
 
-/* Kolory tła */
-.twitch-panel { background: linear-gradient(135deg, #18181b, #6441a5); }
-.youtube-panel { background: linear-gradient(135deg, #282828, #ff0000); }
-.kick-panel { background: linear-gradient(135deg, #0b0e0f, #53fc18); }
-
-/* Wewnętrzny wrapper - odkręca zawartość z powrotem do pionu */
-.panel-content-wrapper {
-    transform: skewX(15deg); /* Kontruje pochylenie rodzica */
-    width: 100vw; /* Zapas szerokości dla bezpiecznego wyświetlania */
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    left: 50%;
-    margin-left: -50vw; /* Utrzymuje zawartość idealnie na środku */
-    transition: transform 0.5s ease;
+/* Tła platform */
+.twitch-panel {
+    background-image: url('/pliki/zdjęcia/glitch_flat_purple.png');
+    background-size: 30%;
+    background-repeat: repeat;
 }
 
-/* --- EFEKTY HOVER --- */
+.youtube-panel {
+    background-image: url('/pliki/zdjęcia/yt_logo_fullcolor_almostblack_digital.png');
+    background-size: 50%;
+    background-repeat: repeat;
+    background-color: #ffffff;
+}
+
+.kick-panel {
+    background-image: url('/pliki/zdjęcia/kick-pattern.png');
+    background-size: cover;
+    background-position: center;
+}
+
+/* Wewnętrzny wrapper - odkręca zawartość do pionu */
+.panel-content-wrapper {
+    position: absolute;
+    top: 0;
+    left: -25%; /* Bufor na lewy skos */
+    width: 150%; /* Zapas szerokości na wyrównanie skosu */
+    height: 100%;
+    transform: skewX(15deg); /* Kontra dla pochylenia rodzica */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* --- EFEKTY NAJECHANIA MYSZKĄ --- */
 .streams-accordion:hover .stream-panel {
     flex: 0.5;
 }
 .streams-accordion .stream-panel:hover {
-    flex: 2;
+    flex: 1.5;
 }
 
 /* --- EFEKT PO KLIKNIĘCIU (Stan Aktywny) --- */
 .stream-panel.is-active {
-    flex: 10 !important;
-    transform: skewX(0deg); /* PROSTUJEMY PANEL DO PROSTOKĄTA */
+    flex: 30 !important; /* Panel rozpycha się na maksimum */
+    transform: skewX(0deg); /* PROSTUJEMY KRAWĘDZIE */
     border-right: none;
     z-index: 10;
     cursor: default;
 }
 
 .stream-panel.is-hidden {
-    flex: 0 !important; /* Pozostałe panele znikają */
-    border: none;
+    flex: 0.1 !important; /* Pozostałe chowają się z boku */
+    transform: skewX(0deg);
 }
 
-/* Odkręcamy wrapper w aktywnym panelu, bo rodzic nie jest już pochylony */
+/* Prostowanie zawartości w aktywnym panelu */
 .stream-panel.is-active .panel-content-wrapper {
-    transform: skewX(0deg); 
-    width: 100vw;
+    transform: skewX(0deg);
+    left: 0;
+    width: 100%;
 }
 
-/* Ukrycie nagłówków po kliknięciu */
+/* Animacja i ukrywanie nagłówków tekstowych */
+.panel-header {
+    text-align: center;
+    color: white;
+    z-index: 10;
+    transition: opacity 0.3s ease;
+    text-shadow: 0 5px 15px rgba(0,0,0,0.8);
+}
+
+.panel-header h2 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    color: white;
+}
+
 .stream-panel.is-active .panel-header {
     opacity: 0;
     pointer-events: none;
 }
 
-/* Pokazanie odtwarzacza */
+/* --- WYŚWIETLANIE ODTWARZACZY API --- */
 .stream-content {
     position: absolute;
     top: 0;
@@ -85,7 +126,7 @@
     height: 100%;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.5s ease 0.4s; /* Odtwarzacz pojawia się, gdy panel się wyprostuje */
+    transition: opacity 0.5s ease 0.4s;
 }
 
 .stream-panel.is-active .stream-content {
@@ -93,7 +134,20 @@
     pointer-events: all;
 }
 
-/* Przycisk zamykania / zwijania panelu */
+/* Wymuszenie 100% dopasowania playerów (Twitch/YT/Kick) */
+.stream-content iframe,
+.youtube-embed-wrapper,
+.twitch-embed-wrapper,
+.kick-embed-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+    border: none;
+}
+
+/* --- PRZYCISK ZWIJANIA PANELU (Krzyżyk) --- */
 .close-panel-btn {
     position: absolute;
     top: 25px;
@@ -106,9 +160,9 @@
     height: 45px;
     font-size: 20px;
     cursor: pointer;
-    z-index: 100; /* Musi być wyżej niż iframe! */
+    z-index: 100;
     opacity: 0;
-    pointer-events: none; /* Wyłączony, gdy panel jest mały */
+    pointer-events: none;
     transition: all 0.3s ease;
     display: flex;
     align-items: center;
@@ -121,8 +175,8 @@
     transform: scale(1.1);
 }
 
-/* Pokazujemy przycisk TYLKO w aktywnym panelu */
 .stream-panel.is-active .close-panel-btn {
     opacity: 1;
-    pointer-events: all; /* Włączamy klikalność */
+    pointer-events: all;
 }
+

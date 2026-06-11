@@ -57,48 +57,44 @@
     </div>
 </div>
 
-    <div class="pierwszy-panel" id="pierwszy-panel">
-        <div class="xbox-slider" id="mainSlider">
-            <div class="slides-container">
-
-<div class="slide streams-master-slide active">
-    <div class="streams-accordion">
-        
-        <div class="stream-panel twitch-panel">
-            <div class="panel-content-wrapper">
-                <button class="close-panel-btn" aria-label="Zwiń panel"><i class="fas fa-times"></i></button>
-                <div class="panel-header">
-                    <h2>Twitch</h2>
-                    <p>Kliknij, aby obejrzeć</p>
+<div class="pierwszy-panel" id="pierwszy-panel">
+        <div class="streams-accordion">
+            
+            <div class="stream-panel twitch-panel">
+                <div class="panel-content-wrapper">
+                    <button class="close-panel-btn" aria-label="Zwiń panel"><i class="fas fa-times"></i></button>
+                    <div class="panel-header">
+                        <h2>Twitch</h2>
+                        <p>Kliknij, aby obejrzeć</p>
+                    </div>
+                    <div class="stream-content" id="twitch-cell"></div>
                 </div>
-                <div class="stream-content" id="twitch-cell"></div>
             </div>
-        </div>
 
-        <div class="stream-panel youtube-panel">
-            <div class="panel-content-wrapper">
-                <button class="close-panel-btn" aria-label="Zwiń panel"><i class="fas fa-times"></i></button>
-                <div class="panel-header">
-                    <h2>YouTube</h2>
-                    <p>Kliknij, aby obejrzeć</p>
+            <div class="stream-panel youtube-panel">
+                <div class="panel-content-wrapper">
+                    <button class="close-panel-btn" aria-label="Zwiń panel"><i class="fas fa-times"></i></button>
+                    <div class="panel-header">
+                        <h2>YouTube</h2>
+                        <p>Kliknij, aby obejrzeć</p>
+                    </div>
+                    <div class="stream-content" id="yt-live-cell"></div>
                 </div>
-                <div class="stream-content" id="yt-live-cell"></div>
             </div>
-        </div>
 
-        <div class="stream-panel kick-panel">
-            <div class="panel-content-wrapper">
-                <button class="close-panel-btn" aria-label="Zwiń panel"><i class="fas fa-times"></i></button>
-                <div class="panel-header">
-                    <h2>Kick</h2>
-                    <p>Kliknij, aby obejrzeć</p>
+            <div class="stream-panel kick-panel">
+                <div class="panel-content-wrapper">
+                    <button class="close-panel-btn" aria-label="Zwiń panel"><i class="fas fa-times"></i></button>
+                    <div class="panel-header">
+                        <h2>Kick</h2>
+                        <p>Kliknij, aby obejrzeć</p>
+                    </div>
+                    <div class="stream-content" id="kick-cell"></div>
                 </div>
-                <div class="stream-content" id="kick-cell"></div>
             </div>
-        </div>
 
+        </div>
     </div>
-</div>
 
             <!-- Nawigacja (Strzałki) -->
             <button class="slider-btn prev-btn" aria-label="Poprzedni slajd">&#10094;</button>
@@ -181,8 +177,8 @@
     <img src="/pliki/zdjęcia/jumpscare.png" class="fullscreen-photo" alt="Niespodzianka">
 </div>
 
-    <script src="game.js"></script>
     <script src="SteamAPI.js"></script>
+    <script src="KICK+wyszukiwanie.js"></script>
     <script src="game.js"></script>
     <script src="Youtube.js"></script>
     <script src="Twitch.js"></script>
